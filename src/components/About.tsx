@@ -34,7 +34,7 @@ const About: React.FC = () => {
             <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-xl">
               <div className="absolute inset-0 bg-gradient-to-tr from-pink-500/20 to-pink-300/40 mix-blend-overlay"></div>
               <img 
-                src="https://images.pexels.com/photos/7709452/pexels-photo-7709452.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
+                src="/pic.jpg" 
                 alt="Women entrepreneurs networking" 
                 className="w-full h-full object-cover"
               />
