@@ -5,6 +5,7 @@ import About from './pages/About';
 import Community from './pages/Community';
 import Events from './pages/Events';
 import Join from './pages/Join';
+import Success from './pages/Success';
 import LoadingScreen from './components/LoadingScreen';
 import { preloadVideos } from './utils/videoPreloader';
 
@@ -246,6 +247,7 @@ export default function App() {
         <Route path="/community" element={<Community />} />
         <Route path="/events" element={<Events />} />
         <Route path="/join" element={<Join />} />
+        <Route path="/success" element={<Success />} />
       </Routes>
       {/* Bottom Navigation */}
       <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50">

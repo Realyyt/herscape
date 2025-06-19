@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 interface FormData {
   firstName: string;
@@ -16,6 +18,7 @@ interface FormErrors {
 }
 
 export default function Join() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<FormData>({
     firstName: '',
     lastName: '',
@@ -68,7 +71,10 @@ export default function Join() {
     setSubmitStatus({});
 
     try {
-      const response = await fetch('/.netlify/functions/submit-join', {
+      // Use the correct URL for development vs production
+      const isDevelopment = import.meta.env.DEV;
+      const baseUrl = isDevelopment ? 'http://localhost:8888' : '';
+      const response = await fetch(`${baseUrl}/.netlify/functions/submit-join`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -79,18 +85,29 @@ export default function Join() {
       const result = await response.json();
       
       if (result.success) {
-        setSubmitStatus({ success: true, message: result.message });
-        // Reset form on success
-        setFormData({
-          firstName: '',
-          lastName: '',
-          email: '',
-          phone: '',
-          tier: 'supporter',
-          company: '',
-          linkedin: '',
-          message: ''
-        });
+        // Extract payment amount from the message
+        const paymentMatch = result.message.match(/\$(\d+)/);
+        const paymentAmount = paymentMatch ? `$${paymentMatch[1]}` : '$50';
+        
+        // Show brief success state before redirecting
+        setSubmitStatus({ success: true, message: 'Application submitted successfully! Redirecting...' });
+        
+        // Small delay to show success message before redirect
+        setTimeout(() => {
+          // Navigate to success page with form data
+          navigate('/success', {
+            state: {
+              successData: {
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                email: formData.email,
+                tier: formData.tier,
+                paymentAmount: paymentAmount,
+                message: result.message
+              }
+            }
+          });
+        }, 1500);
       } else {
         if (result.fieldErrors) {
           setErrors(result.fieldErrors);
@@ -175,6 +192,9 @@ export default function Join() {
                     </svg>
                   )}
                   <span className="font-medium">{submitStatus.message}</span>
+                  {submitStatus.success && (
+                    <div className="ml-2 animate-spin rounded-full h-4 w-4 border-b-2 border-green-600"></div>
+                  )}
                 </div>
               </div>
             )}
