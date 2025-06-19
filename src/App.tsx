@@ -5,6 +5,8 @@ import About from './pages/About';
 import Community from './pages/Community';
 import Events from './pages/Events';
 import Join from './pages/Join';
+import LoadingScreen from './components/LoadingScreen';
+import { preloadVideos } from './utils/videoPreloader';
 
 const pastelBg = 'bg-[#eaffd0]'; // light green/yellow
 const box = 'rounded-3xl border border-black bg-white p-4 md:p-6';
@@ -75,13 +77,38 @@ function PerpetualList({ fontClass = "" }) {
 export default function App() {
   // Color toggle for Chat/Events card
   const [altColor, setAltColor] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const interval = setInterval(() => setAltColor(c => !c), 3000);
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    // Preload videos and show loading screen
+    preloadVideos().then(() => {
+      // Add a small delay for smooth transition
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
+    });
+  }, []);
+
+  const handleLoadingComplete = () => {
+    setIsLoading(false);
+  };
+
+  if (isLoading) {
+    return <LoadingScreen onLoadingComplete={handleLoadingComplete} />;
+  }
+
   return (
-    <div className={`min-h-screen w-full ${pastelBg} flex flex-col font-quantico`}>
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className={`min-h-screen w-full ${pastelBg} flex flex-col font-quantico`}
+    >
       <Routes>
         <Route
           path="/"
@@ -206,8 +233,9 @@ export default function App() {
                       />
                     </svg>
                   </motion.div>
-                  <Link to="/join" className="w-full border border-black rounded-full py-2 text-base font-black mb-2 relative z-10">Chat With Us</Link>
+                  <Link to="/join" className="w-full border border-black rounded-full py-2 text-base text-center font-black mb-2 relative z-10">Chat With Us</Link>
                   <div className="text-5xl font-bold font-calligraphy mb-1 relative z-10" style={{fontWeight: 700}}>HERSCAPE</div>
+                  <div className="w-full h-12 rounded-2xl bg-gradient-to-br from-[#eaffd0] to-white mt-1 relative z-10" />
                   <div className="w-full h-12 rounded-2xl bg-gradient-to-br from-[#eaffd0] to-white mt-1 relative z-10" />
                 </div>
               </div>
@@ -230,6 +258,6 @@ export default function App() {
           <Link to="/join" className="ml-2 border border-black rounded-full px-3 py-1 text-xs font-bold">GET IN TOUCH</Link>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
