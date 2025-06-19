@@ -28,6 +28,7 @@ export default function Join() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<FormErrors>({});
+  const [submitStatus, setSubmitStatus] = useState<{ success?: boolean; message?: string }>({});
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -64,10 +65,44 @@ export default function Join() {
     if (!validateForm()) return;
 
     setIsSubmitting(true);
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    setIsSubmitting(false);
-    // Handle success - could redirect or show success message
+    setSubmitStatus({});
+
+    try {
+      const response = await fetch('/.netlify/functions/submit-join', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const result = await response.json();
+      
+      if (result.success) {
+        setSubmitStatus({ success: true, message: result.message });
+        // Reset form on success
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          tier: 'supporter',
+          company: '',
+          linkedin: '',
+          message: ''
+        });
+      } else {
+        if (result.fieldErrors) {
+          setErrors(result.fieldErrors);
+        } else {
+          setSubmitStatus({ success: false, message: result.message });
+        }
+      }
+    } catch (error) {
+      setSubmitStatus({ success: false, message: 'An unexpected error occurred. Please try again.' });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const tiers = [
@@ -121,6 +156,28 @@ export default function Join() {
               <h2 className="text-3xl font-bold mb-2 text-gray-900">Application Form</h2>
               <p className="text-gray-600">Complete your exclusive membership application</p>
             </div>
+
+            {/* Success/Error Message Display */}
+            {submitStatus.message && (
+              <div className={`mb-6 p-4 rounded-xl ${
+                submitStatus.success 
+                  ? 'bg-green-50 border-2 border-green-200 text-green-800' 
+                  : 'bg-red-50 border-2 border-red-200 text-red-800'
+              }`}>
+                <div className="flex items-center">
+                  {submitStatus.success ? (
+                    <svg className="w-5 h-5 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                  ) : (
+                    <svg className="w-5 h-5 mr-2 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                    </svg>
+                  )}
+                  <span className="font-medium">{submitStatus.message}</span>
+                </div>
+              </div>
+            )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">

@@ -20,4 +20,5 @@
 
 [build]
   command = "npm run build"
-  publish = "dist" 
+  publish = "dist"
+  functions = "netlify/functions" 
