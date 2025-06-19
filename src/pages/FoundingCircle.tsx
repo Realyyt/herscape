@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const membershipTiers = [
   {
@@ -90,13 +91,15 @@ const FoundingCircle = () => {
                     </motion.li>
                   ))}
                 </ul>
-                <motion.button
+                <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="w-full bg-pink-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-pink-700 transition-colors duration-300"
                 >
-                  Join as {tier.name}
-                </motion.button>
+                  <Link to="/join" className="block w-full h-full flex items-center justify-center">
+                    Join as {tier.name}
+                  </Link>
+                </motion.div>
               </div>
             </motion.div>
           ))}

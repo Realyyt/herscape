@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion, easeInOut, Variants } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const pulseTransition = {
   loop: Infinity,
@@ -83,9 +84,9 @@ const About = () => {
               A Movement for Women Who Dare to Dream
               <span className="block mt-2 text-[#bdda57] font-bold">Authenticity. Growth. Connection.</span>
             </p>
-            <button className="px-8 py-3 bg-black text-white rounded-full text-lg font-medium hover:bg-gray-800 transition-colors">
+            <Link to="/join" className="px-8 py-3 bg-black text-white rounded-full text-lg font-medium hover:bg-gray-800 transition-colors">
               JOIN THE MOVEMENT
-            </button>
+            </Link>
           </div>
         </div>
       </section>

@@ -106,8 +106,8 @@ export default function App() {
                     <div className="flex items-center gap-3 mt-1">
                       <a href="#" className="text-black text-lg">✕</a>
                       <a href="#" className="text-black text-lg">in</a>
-                      <button className="border border-black rounded-full px-3 py-1 text-xs font-bold ml-2">Join</button>
-                      <button className="border border-black rounded-full px-3 py-1 text-xs font-bold ml-auto">Get In Touch</button>
+                      <Link to="/join" className="border border-black rounded-full px-3 py-1 text-xs font-bold ml-2">Join</Link>
+                      <Link to="/join" className="border border-black rounded-full px-3 py-1 text-xs font-bold ml-auto">Get In Touch</Link>
                     </div>
                   </div>
                 </div>
@@ -146,7 +146,7 @@ export default function App() {
                       <div key={tier} className="flex items-center justify-between bg-white rounded-xl border border-black px-4 py-2">
                         <span className="font-black text-base">{tier}</span>
                         <span className="font-bold text-sm">${[50, 250, 500][i]}</span>
-                        <button className="border border-black rounded-full px-3 py-1 text-xs font-bold">Join</button>
+                        <Link to="/join" className="border border-black rounded-full px-3 py-1 text-xs font-bold">Join</Link>
                       </div>
                     ))}
                   </div>
@@ -206,7 +206,7 @@ export default function App() {
                       />
                     </svg>
                   </motion.div>
-                  <button className="w-full border border-black rounded-full py-2 text-base font-black mb-2 relative z-10">Chat With Us</button>
+                  <Link to="/join" className="w-full border border-black rounded-full py-2 text-base font-black mb-2 relative z-10">Chat With Us</Link>
                   <div className="text-5xl font-bold font-calligraphy mb-1 relative z-10" style={{fontWeight: 700}}>HERSCAPE</div>
                   <div className="w-full h-12 rounded-2xl bg-gradient-to-br from-[#eaffd0] to-white mt-1 relative z-10" />
                 </div>
@@ -227,7 +227,7 @@ export default function App() {
           <Link to="/community" className={navItem}>COMMUNITY</Link>
           <Link to="/events" className={navItem}>EVENTS</Link>
           <Link to="/join" className={navItem}>JOIN</Link>
-          <button className="ml-2 border border-black rounded-full px-3 py-1 text-xs font-bold">GET IN TOUCH</button>
+          <Link to="/join" className="ml-2 border border-black rounded-full px-3 py-1 text-xs font-bold">GET IN TOUCH</Link>
         </div>
       </div>
     </div>
