@@ -1,13 +1,11 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion, useAnimation, AnimatePresence } from 'framer-motion';
-import { Link, Routes, Route, useLocation } from 'react-router-dom';
+import { Link, Routes, Route } from 'react-router-dom';
 import About from './pages/About';
 import Community from './pages/Community';
 import Events from './pages/Events';
 import Join from './pages/Join';
 import Success from './pages/Success';
-import LoadingScreen from './components/LoadingScreen';
-import { preloadVideos } from './utils/videoPreloader';
 
 const pastelBg = 'bg-[#eaffd0]'; // light green/yellow
 const box = 'rounded-3xl border border-black bg-white p-3 sm:p-4 md:p-6';
