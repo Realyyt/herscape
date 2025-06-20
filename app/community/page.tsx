@@ -25,7 +25,7 @@ export default function Community() {
               WOMEN
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl text-gray-700 mb-6 sm:mb-8 max-w-2xl">
-              Herscape isn't just a program — it's a movement.
+              Herscape isn&apos;t just a program — it&apos;s a movement.
               <span className="block mt-2 text-[#bdda57] font-bold">Power. Peace. Possibility.</span>
             </p>
             <button className="inline-block px-6 sm:px-8 py-3 bg-black text-white rounded-full text-base sm:text-lg font-medium hover:bg-gray-800 transition-colors">
@@ -43,7 +43,7 @@ export default function Community() {
             <div className="p-6 sm:p-8 md:p-10">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-black mb-4 sm:mb-6 leading-tight">WELCOME TO<br />HERSCAPE</h2>
               <p className="text-base sm:text-lg text-gray-700">
-                A space where driven women escape the noise, find clarity, and build with power. We're creating an exclusive global circle for women ready to rise — founders, creators, leaders, and dreamers.
+                A space where driven women escape the noise, find clarity, and build with power. We&apos;re creating an exclusive global circle for women ready to rise — founders, creators, leaders, and dreamers.
               </p>
             </div>
           </div>
@@ -53,7 +53,7 @@ export default function Community() {
             <div className="p-6 sm:p-8 md:p-10 bg-[#eaffd0] h-full">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-black mb-4 sm:mb-6 leading-tight">SUPPORT &<br />INSPIRATION</h2>
               <p className="text-base sm:text-lg text-gray-700">
-                Find support, inspiration, and a network of ambitious women who believe in power, peace, and possibility. We're here to help you thrive and grow.
+                Find support, inspiration, and a network of ambitious women who believe in power, peace, and possibility. We&apos;re here to help you thrive and grow.
               </p>
             </div>
           </div>
@@ -64,7 +64,7 @@ export default function Community() {
             <div className="absolute inset-0 p-6 sm:p-8 md:p-10">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-black mb-4 sm:mb-6 leading-tight">FOUNDING<br />CIRCLE</h2>
               <p className="text-base sm:text-lg text-gray-700">
-                Join the founding circle and leave your footprint on what will become one of the world's most impactful women's initiatives. Your journey starts here.
+                Join the founding circle and leave your footprint on what will become one of the world&apos;s most impactful women&apos;s initiatives. Your journey starts here.
               </p>
             </div>
           </div>

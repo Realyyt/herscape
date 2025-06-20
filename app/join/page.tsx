@@ -1,6 +1,5 @@
 'use client';
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 
 interface FormData {
@@ -90,7 +89,7 @@ export default function Join() {
           setSubmitStatus({ success: false, message: result.message });
         }
       }
-    } catch (error) {
+    } catch {
       setSubmitStatus({ success: false, message: 'An unexpected error occurred. Please try again.' });
     } finally {
       setIsSubmitting(false);
@@ -134,10 +133,10 @@ export default function Join() {
             <span className="block text-[#bdda57]">Founding Circle</span>
           </h1>
           <div className="text-lg sm:text-xl md:text-2xl text-gray-700 mb-3 sm:mb-4 font-light max-w-3xl mx-auto">
-            <span className="text-[#bdda57] font-bold">Legacy Access:</span> Be one of the first 20 women to shape Herscape's future.
+            <span className="text-[#bdda57] font-bold">Legacy Access:</span> Be one of the first 20 women to shape Herscape&apos;s future.
           </div>
           <div className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
-            An exclusive invitation to join the most influential women in women's entrepreneurship
+            An exclusive invitation to join the most influential women in women&apos;s entrepreneurship
           </div>
         </div>
         <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-start">
@@ -346,7 +345,7 @@ export default function Join() {
             <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 border border-white/20">
               <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-gray-900">Why Join?</h2>
               <p className="text-base sm:text-lg text-gray-700 mb-3 sm:mb-4">
-                10% of Herscape's profits will fund women-led businesses in underserved regions around the world. Your contribution isn't just for you — it's for women you may never meet, but whose lives you'll change.
+                10% of Herscape&apos;s profits will fund women-led businesses in underserved regions around the world. Your contribution isn&apos;t just for you — it&apos;s for women you may never meet, but whose lives you&apos;ll change.
               </p>
               <div className="bg-[#eaffd0] rounded-xl p-3 sm:p-4">
                 <p className="text-sm sm:text-base text-gray-800 font-medium">

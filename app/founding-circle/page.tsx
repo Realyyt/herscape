@@ -59,7 +59,7 @@ export default function FoundingCircle() {
             Join the Founding Circle
           </h1>
           <p className="text-lg sm:text-xl text-pink-600 font-semibold">
-            Be One of the First 20 Women to Shape Herscape's Future
+            Be One of the First 20 Women to Shape Herscape&apos;s Future
           </p>
         </motion.div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">

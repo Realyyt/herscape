@@ -20,7 +20,7 @@ export const preloadVideos = (): Promise<VideoLoadStatus> => {
       }
     };
 
-    videoUrls.forEach((url, index) => {
+    videoUrls.forEach((url) => {
       const video = document.createElement('video');
       video.src = url;
       video.preload = 'auto';

@@ -10,38 +10,6 @@ const pulseTransition = {
   repeatType: 'reverse' as const,
 };
 
-const worldVariants: Variants = {
-  animate: {
-    rotate: 360,
-    transition: {
-      duration: 60,
-      ease: easeInOut,
-      repeat: Infinity,
-    }
-  }
-};
-
-const lightningVariants: Variants = {
-  hidden: { 
-    opacity: 0, 
-    pathLength: 0,
-    scale: 0.8
-  },
-  visible: (custom: number) => ({
-    opacity: [0, 1, 0],
-    pathLength: [0, 1, 1],
-    scale: [0.8, 1, 1],
-    transition: {
-      duration: 0.8,
-      times: [0, 0.3, 1],
-      delay: custom * 0.5,
-      repeat: Infinity,
-      repeatDelay: 2,
-      ease: easeInOut
-    },
-  }),
-};
-
 const plantGrowthVariants: Variants = {
   grow: (custom: number) => ({
     pathLength: [0, 1, 1, 0],
@@ -103,7 +71,7 @@ export default function About() {
                 VISION
               </h2>
               <p className="text-base sm:text-lg md:text-xl text-gray-700 leading-relaxed">
-                Herscape was born from a simple yet powerful vision: to create a space where ambitious women can thrive, connect, and build their legacy. In a world that often tries to dim our light, we're here to amplify it.
+                Herscape was born from a simple yet powerful vision: to create a space where ambitious women can thrive, connect, and build their legacy. In a world that often tries to dim our light, we&apos;re here to amplify it.
               </p>
             </div>
           </div>
@@ -323,7 +291,7 @@ export default function About() {
                 <li>• Authenticity in all we do</li>
                 <li>• Unwavering support for growth</li>
                 <li>• Creating meaningful connections</li>
-                <li>• Celebrating each other's successes</li>
+                <li>• Celebrating each other&apos;s successes</li>
               </ul>
             </div>
           </div>

@@ -1,6 +1,5 @@
 import './globals.css';
 import type { ReactNode } from 'react';
-import Link from 'next/link';
 import Navbar from '../src/components/Navbar';
 
 export const metadata = {

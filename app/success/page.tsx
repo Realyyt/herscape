@@ -1,9 +1,8 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { CheckCircle, Mail, CreditCard, Users, Star, ArrowRight, Copy, Check } from 'lucide-react';
+import { CheckCircle, Users, Star } from 'lucide-react';
 
 interface SuccessData {
   firstName: string;
@@ -14,12 +13,10 @@ interface SuccessData {
   email: string;
 }
 
-export default function Success() {
+function SuccessContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [successData, setSuccessData] = useState<SuccessData | null>(null);
-  const [currentStep, setCurrentStep] = useState(0);
-  const [copiedField, setCopiedField] = useState<string | null>(null);
 
   useEffect(() => {
     // Get data from URL params
@@ -39,59 +36,9 @@ export default function Success() {
     }
   }, [searchParams, router]);
 
-  useEffect(() => {
-    // Animate through steps
-    const timer = setTimeout(() => {
-      setCurrentStep(1);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  const copyToClipboard = async (text: string, fieldName: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopiedField(fieldName);
-      setTimeout(() => setCopiedField(null), 2000);
-    } catch (err) {
-      console.error('Failed to copy text: ', err);
-    }
-  };
-
-  const bankDetails = {
-    accountHolder: 'Salem Andero',
-    bankName: 'Wells Fargo Bank, N.A.',
-    accountNumber: '40630159095097994',
-    routingNumber: '121000248',
-    accountType: 'Checking',
-    address: '580 California Street, San Francisco, CA 94104, US'
-  };
-
   if (!successData) {
-    return null;
+    return null; // Or a loading spinner
   }
-
-  const tierInfo = {
-    supporter: {
-      name: 'Supporter',
-      color: 'from-green-400 to-green-600',
-      icon: <Users className="w-8 h-8" />,
-      benefits: ['Lifetime perks & discounts', 'Name etched in history', 'Exclusive merch package']
-    },
-    pioneer: {
-      name: 'Pioneer',
-      color: 'from-blue-400 to-blue-600',
-      icon: <Star className="w-8 h-8" />,
-      benefits: ['All Supporter perks', 'Priority access to pitch circles', 'Exclusive events access']
-    },
-    angel: {
-      name: 'Angel',
-      color: 'from-purple-400 to-purple-600',
-      icon: <Star className="w-8 h-8" />,
-      benefits: ['All Pioneer perks', 'Gold Club/Board eligibility', 'VIP status & recognition']
-    }
-  };
-
-  const currentTier = tierInfo[successData.tier as keyof typeof tierInfo];
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-[#f7ffe5] via-[#f0f9e8] to-[#e8f5e0] flex flex-col items-center justify-center py-8 sm:py-12 md:py-16 px-3 sm:px-4 relative overflow-hidden">
@@ -158,7 +105,7 @@ export default function Success() {
             Congratulations, <span className="font-bold text-[#bdda57]">{successData.firstName} {successData.lastName}</span>!
           </div>
           <div className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
-            You've taken the first step toward joining the most influential women in women's entrepreneurship.
+            You&apos;ve taken the first step toward joining the most influential women in women&apos;s entrepreneurship.
           </div>
         </motion.div>
         {/* Main Content Card */}
@@ -166,4 +113,12 @@ export default function Success() {
       </div>
     </div>
   );
+}
+
+export default function Success() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <SuccessContent />
+        </Suspense>
+    )
 }

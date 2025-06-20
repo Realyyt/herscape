@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import Image from 'next/image';
 
 
 export default function Events() {
@@ -30,7 +31,7 @@ export default function Events() {
           />
           <div className="absolute bottom-0 left-0 right-0 bg-white bg-opacity-90 p-3 sm:p-4">
             <h2 className="font-bold text-lg sm:text-xl">Luxury Retreat Experience</h2>
-            <p className="text-sm sm:text-base text-gray-700">Immerse yourself in Dubai's most exclusive locations</p>
+            <p className="text-sm sm:text-base text-gray-700">Immerse yourself in Dubai&apos;s most exclusive locations</p>
           </div>
         </div>
 
@@ -68,9 +69,10 @@ export default function Events() {
 
         {/* Dubai Image Card 2 */}
         <div className={`${box} col-span-1 md:col-span-2 row-span-2 relative overflow-hidden min-h-[400px] sm:min-h-[500px] md:min-h-[600px]`}>
-          <img
+          <Image
             src='/d.jpg'
             alt="Networking Event"
+            fill
             className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="absolute bottom-0 left-0 right-0 bg-white bg-opacity-90 p-3 sm:p-4">

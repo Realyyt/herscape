@@ -7,7 +7,6 @@ const pastelBg = 'bg-[#eaffd0]';
 const box = 'rounded-3xl border border-black bg-white p-3 sm:p-4 md:p-6';
 const boxPastel = 'rounded-3xl border border-black ' + pastelBg + ' p-3 sm:p-4 md:p-6';
 const heading = 'font-black text-xl sm:text-2xl md:text-4xl uppercase tracking-tight';
-const navItem = 'px-2 sm:px-3 py-1 rounded-full hover:bg-black hover:text-white transition text-xs sm:text-sm';
 
 const services = [
   'COMMUNITY',
@@ -117,7 +116,7 @@ export default function Home() {
           <div className="mb-2 mt-6 sm:mt-10">
             <div className={heading + ' text-lg sm:text-xl md:text-3xl font-quantico'}>HERSCAPE IS THE GO-TO SPACE FOR AMBITIOUS WOMEN</div>
             <div className="mt-4 sm:mt-6 text-black text-sm sm:text-base md:text-lg font-quantico">
-              Since 2024, we've helped women founders, creators, and leaders find clarity, build power, and connect globally. If you're ready to rise, let's talk.
+              Since 2024, we&apos;ve helped women founders, creators, and leaders find clarity, build power, and connect globally. If you&apos;re ready to rise, let&apos;s talk.
             </div>
           </div>
         </div>
