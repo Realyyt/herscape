@@ -1,7 +1,7 @@
 import React from 'react';
 
 const WavePattern = () => (
-  <svg className="w-full h-32 sm:h-48" viewBox="0 0 400 200" preserveAspectRatio="none">
+  <svg className="w-full h-64" viewBox="0 0 400 200" preserveAspectRatio="none">
     <path
       d="M0,100 C150,200 250,0 400,100 L400,200 L0,200 Z"
       fill="#eaffd0"
