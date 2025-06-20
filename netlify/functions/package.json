@@ -1,9 +1,0 @@
-{
-  "name": "herscape-netlify-functions",
-  "version": "1.0.0",
-  "description": "Netlify functions for Herscape website",
-  "main": "index.js",
-  "dependencies": {
-    "zod": "^3.25.67"
-  }
-} 
