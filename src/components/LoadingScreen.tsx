@@ -80,16 +80,16 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
           />
         </div>
 
-        <div className="text-center max-w-lg mx-auto px-8 relative z-10">
+        <div className="text-center max-w-lg mx-auto px-4 sm:px-8 relative z-10">
           {/* Logo/Brand */}
           <motion.div
             initial={{ scale: 0.8, opacity: 0, y: -50 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            className="mb-12"
+            className="mb-8 sm:mb-12"
           >
             <motion.h1 
-              className="text-7xl md:text-9xl font-bold font-calligraphy text-black tracking-tight mb-4"
+              className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-bold font-calligraphy text-black tracking-tight mb-3 sm:mb-4"
               style={{fontWeight: 700}}
               animate={{
                 textShadow: [
@@ -107,9 +107,9 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
               HERSCAPE
             </motion.h1>
             <motion.div 
-              className="w-32 h-1 bg-black mx-auto rounded-full"
+              className="w-20 sm:w-32 h-1 bg-black mx-auto rounded-full"
               initial={{ width: 0 }}
-              animate={{ width: "8rem" }}
+              animate={{ width: "5rem sm:8rem" }}
               transition={{ duration: 1.5, delay: 0.5 }}
             />
           </motion.div>
@@ -121,16 +121,16 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -30 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="mb-10"
+            className="mb-8 sm:mb-10"
           >
-            <p className="text-xl md:text-2xl font-medium text-gray-800 font-quantico tracking-wide">
+            <p className="text-lg sm:text-xl md:text-2xl font-medium text-gray-800 font-quantico tracking-wide">
               {loadingTexts[currentText]}
             </p>
           </motion.div>
 
           {/* Progress Bar */}
-          <div className="mb-10">
-            <div className="w-full bg-white border-2 border-black rounded-full h-4 overflow-hidden shadow-inner">
+          <div className="mb-8 sm:mb-10">
+            <div className="w-full bg-white border-2 border-black rounded-full h-3 sm:h-4 overflow-hidden shadow-inner">
               <motion.div
                 className="h-full bg-gradient-to-r from-[#eaffd0] via-[#f3e5ff] to-[#eaffd0]"
                 initial={{ width: 0 }}
@@ -141,18 +141,18 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="text-sm font-bold mt-3 text-gray-700 tracking-wide"
+              className="text-xs sm:text-sm font-bold mt-2 sm:mt-3 text-gray-700 tracking-wide"
             >
               {Math.round(progress)}% Complete
             </motion.p>
           </div>
 
           {/* Animated Loading Dots */}
-          <div className="flex justify-center space-x-3 mb-8">
+          <div className="flex justify-center space-x-2 sm:space-x-3 mb-6 sm:mb-8">
             {[0, 1, 2].map((i) => (
               <motion.div
                 key={i}
-                className="w-4 h-4 bg-black rounded-full"
+                className="w-3 h-3 sm:w-4 sm:h-4 bg-black rounded-full"
                 animate={{
                   scale: [1, 1.8, 1],
                   opacity: [0.3, 1, 0.3],
@@ -174,10 +174,10 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
               initial={{ scale: 0, opacity: 0, rotate: -180 }}
               animate={{ scale: 1, opacity: 1, rotate: 0 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              className="mt-8"
+              className="mt-6 sm:mt-8"
             >
               <motion.div 
-                className="text-4xl mb-3"
+                className="text-3xl sm:text-4xl mb-2 sm:mb-3"
                 animate={{
                   rotate: [0, 10, -10, 0],
                   scale: [1, 1.1, 1]
@@ -191,7 +191,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
                 ✨
               </motion.div>
               <motion.p 
-                className="text-lg font-bold text-gray-800 tracking-wide"
+                className="text-base sm:text-lg font-bold text-gray-800 tracking-wide"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}

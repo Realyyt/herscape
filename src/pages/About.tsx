@@ -73,18 +73,18 @@ const About = () => {
   return (
     <div className="w-full bg-white">
       {/* Full viewport height hero section */}
-      <section className="h-screen w-full bg-[#f7ffe5] flex items-center">
-        <div className="max-w-7xl mx-auto px-6">
+      <section className="min-h-screen w-full bg-[#f7ffe5] flex items-center px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto w-full">
           <div className="max-w-3xl">
-            <h1 className="text-7xl md:text-8xl font-black mb-8 text-black tracking-tight">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-6 sm:mb-8 text-black tracking-tight leading-tight">
               ABOUT<br />
               HERSCAPE
             </h1>
-            <p className="text-xl md:text-2xl text-gray-700 mb-8 max-w-2xl">
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-700 mb-6 sm:mb-8 max-w-2xl">
               A Movement for Women Who Dare to Dream
               <span className="block mt-2 text-[#bdda57] font-bold">Authenticity. Growth. Connection.</span>
             </p>
-            <Link to="/join" className="px-8 py-3 bg-black text-white rounded-full text-lg font-medium hover:bg-gray-800 transition-colors">
+            <Link to="/join" className="inline-block px-6 sm:px-8 py-3 bg-black text-white rounded-full text-base sm:text-lg font-medium hover:bg-gray-800 transition-colors">
               JOIN THE MOVEMENT
             </Link>
           </div>
@@ -92,30 +92,30 @@ const About = () => {
       </section>
 
       {/* First Section: Card + World SVG */}
-      <section className="w-full px-6 py-24 bg-white">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-20">
+      <section className="w-full px-4 sm:px-6 py-12 sm:py-16 md:py-24 bg-white">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 md:gap-20">
           {/* Vision Card */}
-          <div className="relative overflow-hidden rounded-[32px] border-2 border-black">
-            <div className="p-14">
-              <h2 className="text-5xl font-black mb-8 tracking-tight">
+          <div className="relative overflow-hidden rounded-[24px] sm:rounded-[32px] border-2 border-black order-2 lg:order-1">
+            <div className="p-6 sm:p-8 md:p-14">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6 sm:mb-8 tracking-tight leading-tight">
                 OUR<br />
                 VISION
               </h2>
-              <p className="text-xl text-gray-700 leading-relaxed">
+              <p className="text-base sm:text-lg md:text-xl text-gray-700 leading-relaxed">
                 Herscape was born from a simple yet powerful vision: to create a space where ambitious women can thrive, connect, and build their legacy. In a world that often tries to dim our light, we're here to amplify it.
               </p>
             </div>
           </div>
 
           {/* Lamp SVG */}
-          <div className="flex justify-center">
+          <div className="flex justify-center order-1 lg:order-2">
             <motion.div
-              className="w-[300px]"
+              className="w-[200px] sm:w-[250px] md:w-[300px]"
               initial={{ scale: 1, opacity: 0.8 }}
               animate={{ scale: [1, 1.08, 1], opacity: [0.8, 1, 0.8] }}
               transition={pulseTransition}
             >
-              <svg width="300" height="400" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+              <svg width="100%" height="100%" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
                 {/* Lamp base (dark but visible) */}
                 <ellipse cx="150" cy="370" rx="45" ry="15" fill="#1a1a1a" stroke="#333333" strokeWidth="1"/>
                 
@@ -209,15 +209,15 @@ const About = () => {
       </section>
 
       {/* Second Section: Growing Plants SVG + Card */}
-      <section className="w-full px-6 py-24">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-20">
+      <section className="w-full px-4 sm:px-6 py-12 sm:py-16 md:py-24">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 md:gap-20">
           {/* Growing Plants SVG */}
-          <div className="flex justify-center">
+          <div className="flex justify-center order-2 lg:order-1">
             <motion.svg 
               viewBox="0 0 400 400" 
               fill="none" 
               xmlns="http://www.w3.org/2000/svg"
-              className="w-[600px]"
+              className="w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px]"
             >
               {/* Soil with gentle wave motion */}
               <motion.path 
@@ -332,16 +332,16 @@ const About = () => {
           </div>
 
           {/* Mission Card */}
-          <div className="relative overflow-hidden rounded-[32px] border-2 border-black bg-[#f7ffe5]">
-            <div className="p-14">
-              <h2 className="text-5xl font-black mb-8 tracking-tight">
+          <div className="relative overflow-hidden rounded-[24px] sm:rounded-[32px] border-2 border-black bg-[#f7ffe5] order-1 lg:order-2">
+            <div className="p-6 sm:p-8 md:p-14">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6 sm:mb-8 tracking-tight leading-tight">
                 OUR<br />
                 MISSION
               </h2>
-              <p className="text-xl text-gray-700 leading-relaxed mb-8">
+              <p className="text-base sm:text-lg md:text-xl text-gray-700 leading-relaxed mb-6 sm:mb-8">
                 Our mission is to empower women to break through barriers, shatter glass ceilings, and create their own definitions of success. We believe that when women support women, incredible things happen.
               </p>
-              <ul className="text-xl text-gray-700 space-y-4">
+              <ul className="text-base sm:text-lg md:text-xl text-gray-700 space-y-3 sm:space-y-4">
                 <li>• Authenticity in all we do</li>
                 <li>• Unwavering support for growth</li>
                 <li>• Creating meaningful connections</li>

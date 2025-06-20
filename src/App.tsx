@@ -10,12 +10,12 @@ import LoadingScreen from './components/LoadingScreen';
 import { preloadVideos } from './utils/videoPreloader';
 
 const pastelBg = 'bg-[#eaffd0]'; // light green/yellow
-const box = 'rounded-3xl border border-black bg-white p-4 md:p-6';
-const boxPastel = 'rounded-3xl border border-black ' + pastelBg + ' p-4 md:p-6';
-const heading = 'font-black text-2xl md:text-4xl uppercase tracking-tight';
-const subheading = 'font-bold text-lg md:text-2xl uppercase';
-const text = 'text-black text-base md:text-lg';
-const navItem = 'px-3 py-1 rounded-full hover:bg-black hover:text-white transition';
+const box = 'rounded-3xl border border-black bg-white p-3 sm:p-4 md:p-6';
+const boxPastel = 'rounded-3xl border border-black ' + pastelBg + ' p-3 sm:p-4 md:p-6';
+const heading = 'font-black text-xl sm:text-2xl md:text-4xl uppercase tracking-tight';
+const subheading = 'font-bold text-base sm:text-lg md:text-2xl uppercase';
+const text = 'text-black text-sm sm:text-base md:text-lg';
+const navItem = 'px-2 sm:px-3 py-1 rounded-full hover:bg-black hover:text-white transition text-xs sm:text-sm';
 
 const services = [
   'COMMUNITY',
@@ -59,14 +59,14 @@ function PerpetualList({ fontClass = "" }) {
   }, [height, controls]);
 
   return (
-    <div style={{ overflow: 'hidden', height: '400px', position: 'relative' }}>
+    <div style={{ overflow: 'hidden', height: '300px sm:400px', position: 'relative' }}>
       <motion.div
         ref={listRef}
         animate={controls}
         style={{ display: 'flex', flexDirection: 'column' }}
       >
         {[...services, ...services].map((s, i) => (
-          <div key={i} className={`mb-0.5 font-black text-xl md:text-3xl leading-tight ${fontClass}`}>
+          <div key={i} className={`mb-0.5 font-black text-lg sm:text-xl md:text-3xl leading-tight ${fontClass}`}>
             {s}
           </div>
         ))}
@@ -116,9 +116,9 @@ export default function App() {
           element={
             <>
               {/* Top Grid */}
-              <div className="grid grid-cols-4 grid-rows-2 gap-4 p-4 md:p-8" style={{marginBottom: '90px'}}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 grid-rows-auto gap-3 sm:gap-4 p-3 sm:p-4 md:p-8" style={{marginBottom: '90px'}}>
                 {/* Logo & Socials */}
-                <div className={`${box} flex flex-col justify-between col-span-1 row-span-1 relative overflow-hidden`}>
+                <div className={`${box} flex flex-col justify-between col-span-1 row-span-1 relative overflow-hidden min-h-[200px] sm:min-h-[250px]`}>
                   {/* Background Video */}
                   <video
                     src="/women.mp4" // Replace with your video path
@@ -131,57 +131,57 @@ export default function App() {
                   {/* Overlay content */}
                   <div className="relative z-10 flex flex-col h-full justify-between">
                     <div /> {/* Empty top to push content to bottom */}
-                    <div className="flex items-center gap-3 mt-1">
-                      <a href="#" className="text-black text-lg">✕</a>
-                      <a href="#" className="text-black text-lg">in</a>
-                      <Link to="/join" className="border border-black rounded-full px-3 py-1 text-xs font-bold ml-2">Join</Link>
-                      <Link to="/join" className="border border-black rounded-full px-3 py-1 text-xs font-bold ml-auto">Get In Touch</Link>
+                    <div className="flex items-center gap-2 sm:gap-3 mt-1 flex-wrap">
+                      <a href="#" className="text-black text-base sm:text-lg">✕</a>
+                      <a href="#" className="text-black text-base sm:text-lg">in</a>
+                      <Link to="/join" className="border border-black rounded-full px-2 sm:px-3 py-1 text-xs font-bold ml-2">Join</Link>
+                      <Link to="/join" className="border border-black rounded-full px-2 sm:px-3 py-1 text-xs font-bold ml-auto">Get In Touch</Link>
                     </div>
                   </div>
                 </div>
                 {/* Center Video Section (spans 2 columns, 1 row) */}
-                <div className="col-span-2 row-span-1 flex flex-col gap-4 justify-center">
-                  <div className={`${box} flex items-center justify-center bg-gradient-to-br from-[#eaffd0] to-white relative overflow-hidden p-0`} style={{ minHeight: '18rem' }}>
+                <div className="col-span-1 sm:col-span-2 row-span-1 flex flex-col gap-3 sm:gap-4 justify-center">
+                  <div className={`${box} flex items-center justify-center bg-gradient-to-br from-[#eaffd0] to-white relative overflow-hidden p-0`} style={{ minHeight: '15rem sm:18rem' }}>
                     <video
                       src="/logo.mp4" // Replace with your video path
                       autoPlay
                       loop
                       muted
                       playsInline
-                      className="w-full h-64 md:h-96 object-cover rounded-2xl border border-black"
+                      className="w-full h-48 sm:h-64 md:h-96 object-cover rounded-2xl border border-black"
                     />
                   </div>
                 </div>
                 {/* Mission/Intro */}
                 <div className={`${box} flex flex-col col-span-1 row-span-1`}>
-                  <div className="mb-2 mt-10">
-                    <div className={heading + ' text-lg md:text-3xl font-quantico'}>HERSCAPE IS THE GO-TO SPACE FOR AMBITIOUS WOMEN</div>
-                    <div className="mt-6 text-black text-sm md:text-lg font-quantico">
+                  <div className="mb-2 mt-6 sm:mt-10">
+                    <div className={heading + ' text-lg sm:text-xl md:text-3xl font-quantico'}>HERSCAPE IS THE GO-TO SPACE FOR AMBITIOUS WOMEN</div>
+                    <div className="mt-4 sm:mt-6 text-black text-sm sm:text-base md:text-lg font-quantico">
                       Since 2024, we've helped women founders, creators, and leaders find clarity, build power, and connect globally. If you're ready to rise, let's talk.
                     </div>
                   </div>
                 </div>
                 {/* WHAT WE DO - 2x height */}
-                <div className={`${boxPastel} flex flex-col col-span-1 row-span-2`}>
+                <div className={`${boxPastel} flex flex-col col-span-1 row-span-2 min-h-[400px] sm:min-h-[500px]`}>
                   <div className="text-xs mb-1 tracking-widest uppercase font-quantico">What We Do</div>
                   <PerpetualList fontClass="font-quantico" />
                 </div>
                 {/* Membership Tiers */}
-                <div className={`${boxPastel} col-span-2 row-span-1 flex flex-col`}>
+                <div className={`${boxPastel} col-span-1 sm:col-span-2 row-span-1 flex flex-col`}>
                   <div className="text-xs mb-1 tracking-widest uppercase">Membership Tiers</div>
                   <div className="flex flex-col gap-2">
                     {['Supporter', 'Pioneer', 'Angel'].map((tier, i) => (
-                      <div key={tier} className="flex items-center justify-between bg-white rounded-xl border border-black px-4 py-2">
-                        <span className="font-black text-base">{tier}</span>
-                        <span className="font-bold text-sm">${[50, 250, 500][i]}</span>
-                        <Link to="/join" className="border border-black rounded-full px-3 py-1 text-xs font-bold">Join</Link>
+                      <div key={tier} className="flex items-center justify-between bg-white rounded-xl border border-black px-3 sm:px-4 py-2">
+                        <span className="font-black text-sm sm:text-base">{tier}</span>
+                        <span className="font-bold text-xs sm:text-sm">${[50, 250, 500][i]}</span>
+                        <Link to="/join" className="border border-black rounded-full px-2 sm:px-3 py-1 text-xs font-bold">Join</Link>
                       </div>
                     ))}
                   </div>
                 </div>
                 {/* Chat/Events */}
                 <div
-                  className={`rounded-3xl border border-black flex flex-col h-full items-center justify-between relative overflow-hidden col-span-1 row-span-1 p-4 md:p-6 ${altColor ? 'bg-purple-300' : pastelBg}`}
+                  className={`rounded-3xl border border-black flex flex-col h-full items-center justify-between relative overflow-hidden col-span-1 row-span-1 p-3 sm:p-4 md:p-6 min-h-[200px] sm:min-h-[250px] ${altColor ? 'bg-purple-300' : pastelBg}`}
                 >
                   {/* Animated 3D Light Purple Spaghetti Art SVG, perfectly centered and contained */}
                   <motion.div
@@ -234,10 +234,10 @@ export default function App() {
                       />
                     </svg>
                   </motion.div>
-                  <Link to="/join" className="w-full border border-black rounded-full py-2 text-base text-center font-black mb-2 relative z-10">Chat With Us</Link>
-                  <div className="text-5xl font-bold font-calligraphy mb-1 relative z-10" style={{fontWeight: 700}}>HERSCAPE</div>
-                  <div className="w-full h-12 rounded-2xl bg-gradient-to-br from-[#eaffd0] to-white mt-1 relative z-10" />
-                  <div className="w-full h-12 rounded-2xl bg-gradient-to-br from-[#eaffd0] to-white mt-1 relative z-10" />
+                  <Link to="/join" className="w-full border border-black rounded-full py-2 text-sm sm:text-base text-center font-black mb-2 relative z-10">Chat With Us</Link>
+                  <div className="text-3xl sm:text-4xl md:text-5xl font-bold font-calligraphy mb-1 relative z-10" style={{fontWeight: 700}}>HERSCAPE</div>
+                  <div className="w-full h-8 sm:h-12 rounded-2xl bg-gradient-to-br from-[#eaffd0] to-white mt-1 relative z-10" />
+                  <div className="w-full h-8 sm:h-12 rounded-2xl bg-gradient-to-br from-[#eaffd0] to-white mt-1 relative z-10" />
                 </div>
               </div>
             </>
@@ -250,14 +250,14 @@ export default function App() {
         <Route path="/success" element={<Success />} />
       </Routes>
       {/* Bottom Navigation */}
-      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50">
-        <div className="flex items-center gap-1 bg-white border border-black rounded-full px-4 py-2 shadow-lg">
-          <Link to="/" className="font-black text-lg mr-2">HERSCAPE</Link>
-          <Link to="/about" className={navItem}>ABOUT</Link>
-          <Link to="/community" className={navItem}>COMMUNITY</Link>
-          <Link to="/events" className={navItem}>EVENTS</Link>
-          <Link to="/join" className={navItem}>JOIN</Link>
-          <Link to="/join" className="ml-2 border border-black rounded-full px-3 py-1 text-xs font-bold">GET IN TOUCH</Link>
+      <div className="fixed bottom-4 inset-x-4 z-50 sm:left-1/2 sm:-translate-x-1/2 sm:w-auto sm:inset-x-auto">
+        <div className="flex items-center gap-1 bg-white border border-black rounded-full px-2 sm:px-4 py-2 shadow-lg overflow-x-auto">
+          <Link to="/" className="font-black text-sm sm:text-lg mr-2 whitespace-nowrap">HERSCAPE</Link>
+          <Link to="/about" className={navItem + ' whitespace-nowrap'}>ABOUT</Link>
+          <Link to="/community" className={navItem + ' whitespace-nowrap'}>COMMUNITY</Link>
+          <Link to="/events" className={navItem + ' whitespace-nowrap'}>EVENTS</Link>
+          <Link to="/join" className={navItem + ' whitespace-nowrap'}>JOIN</Link>
+          <Link to="/join" className="ml-2 border border-black rounded-full px-2 sm:px-3 py-1 text-xs font-bold whitespace-nowrap">GET IN TOUCH</Link>
         </div>
       </div>
     </motion.div>
