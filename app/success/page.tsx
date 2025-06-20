@@ -109,7 +109,66 @@ function SuccessContent() {
           </div>
         </motion.div>
         {/* Main Content Card */}
-        {/* ...rest of the content remains unchanged... */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.8 }}
+          className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 border border-white/20 w-full"
+        >
+          <div className="text-center">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">Next Steps: Complete Your Registration</h2>
+            <p className="text-sm sm:text-base text-gray-600 mb-6 max-w-xl mx-auto">
+              To finalize your <span className="font-semibold capitalize text-[#bdda57]">{successData.tier}</span> membership, please complete the payment below.
+              An email with these instructions has been sent to <span className="font-semibold text-[#bdda57]">{successData.email}</span>.
+            </p>
+          </div>
+          
+          <div className="bg-white rounded-2xl shadow-inner p-4 sm:p-6 border border-gray-200/80">
+            <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4 flex items-center justify-center">
+              <Star className="w-5 h-5 text-yellow-500 mr-2" />
+              Payment Instructions
+            </h3>
+
+            <div className="text-center mb-6">
+              <p className="text-sm text-gray-500 mb-1">Total Amount</p>
+              <p className="text-4xl sm:text-5xl font-bold text-gray-900">{successData.paymentAmount}</p>
+            </div>
+            
+            <div className="bg-gray-50 rounded-xl p-4 border border-gray-200/90 text-sm sm:text-base">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
+                <div className="font-semibold text-gray-600">Account Holder:</div>
+                <div className="text-gray-900 font-medium">Salem Andero</div>
+                
+                <div className="font-semibold text-gray-600">Bank:</div>
+                <div className="text-gray-900 font-medium">Wells Fargo Bank, N.A.</div>
+
+                <div className="font-semibold text-gray-600">Account Number:</div>
+                <div className="text-gray-900 font-medium">40630159095097994</div>
+
+                <div className="font-semibold text-gray-600">Routing Number:</div>
+                <div className="text-gray-900 font-medium">121000248</div>
+
+                <div className="font-semibold text-gray-600">Account Type:</div>
+                <div className="text-gray-900 font-medium">Checking</div>
+
+                <div className="font-semibold text-gray-600">Address:</div>
+                <div className="text-gray-900 font-medium">580 California Street, San Francisco, CA 94104, US</div>
+              </div>
+            </div>
+
+            <div className="mt-6 text-center bg-yellow-50 border-2 border-yellow-200 rounded-xl p-3">
+                <p className="text-xs sm:text-sm text-yellow-800 font-semibold">
+                  Note: This is a temporary payment method while we await company account approval.
+                </p>
+            </div>
+          </div>
+
+          <div className="mt-8 text-center">
+            <p className="text-sm text-gray-500">
+              Having trouble? <a href="mailto:contact@herscape.org" className="font-semibold text-[#bdda57] hover:underline">Contact: contact@herscape.org</a>
+            </p>
+          </div>
+        </motion.div>
       </div>
     </div>
   );

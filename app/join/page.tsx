@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { tiers } from '@/lib/tiers';
 
 interface FormData {
   firstName: string;
@@ -95,30 +96,6 @@ export default function Join() {
       setIsSubmitting(false);
     }
   };
-
-  const tiers = [
-    {
-      id: 'supporter',
-      name: 'Supporter',
-      price: '$50',
-      description: 'All core perks, your name in history, and exclusive merch.',
-      features: ['Lifetime perks & discounts', 'Name etched in history', 'Exclusive merch package']
-    },
-    {
-      id: 'pioneer',
-      name: 'Pioneer',
-      price: '$250',
-      description: 'All Supporter perks, plus priority access to pitch circles and events.',
-      features: ['All Supporter perks', 'Priority access to pitch circles', 'Exclusive events access']
-    },
-    {
-      id: 'angel',
-      name: 'Angel',
-      price: '$500',
-      description: 'All Pioneer perks, plus Gold Club/Board eligibility and VIP status.',
-      features: ['All Pioneer perks', 'Gold Club/Board eligibility', 'VIP status & recognition']
-    }
-  ];
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-[#f7ffe5] via-[#f0f9e8] to-[#e8f5e0] flex flex-col items-center py-8 sm:py-12 md:py-16 px-3 sm:px-4">

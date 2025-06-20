@@ -2,10 +2,10 @@
   "/_not-found/page": "/_not-found",
   "/api/join/route": "/api/join",
   "/about/page": "/about",
+  "/events/page": "/events",
   "/community/page": "/community",
   "/founding-circle/page": "/founding-circle",
-  "/events/page": "/events",
-  "/join/page": "/join",
   "/page": "/",
-  "/success/page": "/success"
+  "/success/page": "/success",
+  "/join/page": "/join"
 }

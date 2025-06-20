@@ -90,13 +90,18 @@ export default function Events() {
               <div className="font-bold text-base sm:text-lg mb-1">Early Bird Registration</div>
               <div className="text-sm sm:text-base">Opens Soon - Limited Spots Available</div>
             </div>
-            <div className="bg-[#eaffd0] rounded-xl p-4 sm:p-6">
+            <div className="bg-[#eaffd0] mb-8 sm:mb-12 rounded-xl p-4 sm:p-6">
               <div className="font-bold text-base sm:text-lg mb-1">Founding Circle Members</div>
               <div className="text-sm sm:text-base">Get Priority Access & Special Perks</div>
             </div>
-            <Link href="/join" className="w-full bg-black text-white rounded-full py-3 sm:py-4 font-bold mt-3 sm:mt-4 text-base sm:text-lg">
-              Register Interest
-            </Link>
+            <div className="w-full flex justify-center mt-8 sm:mt-12">
+              <Link
+                href="/join"
+                className="bg-black text-white rounded-full py-4 px-8 font-bold text-base sm:text-lg w-full sm:w-auto text-center"
+              >
+                Register Interest
+              </Link>
+            </div>
           </div>
         </div>
       </div>

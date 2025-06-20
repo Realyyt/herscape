@@ -1,7 +1,9 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { JoinRequestEmail } from '@/emails/JoinRequest';
+import { ApplicantJoinEmail } from '@/emails/ApplicantJoinEmail';
 import { z } from 'zod';
+import { tierMap } from '@/lib/tiers';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -26,43 +28,53 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, message: 'Invalid form data.', fieldErrors }, { status: 400 });
     }
 
-    const { firstName, lastName, email, phone, tier, company, linkedin, message } = parsed.data;
+    const { firstName, lastName, email, phone, tier, company, linkedin } = parsed.data;
 
-    const { data, error } = await resend.emails.send({
+    const selectedTier = tierMap.get(tier);
+
+    if (!selectedTier) {
+      return NextResponse.json({ success: false, message: 'Invalid tier selected.' }, { status: 400 });
+    }
+
+    const paymentAmount = selectedTier.priceString;
+    const paymentAmountMessage = `Your application has been received! The required contribution is ${paymentAmount}.`;
+
+    const adminEmailPromise = resend.emails.send({
       from: 'Herscape <contact@herscape.org>',
-      to: [process.env.ADMIN_EMAIL || ''],
-      subject: `New Join Request: ${firstName} ${lastName}`,
+      to: 'contact@herscape.org',
+      subject: `New Founding Circle Application: ${firstName} ${lastName}`,
       react: JoinRequestEmail({
         firstName,
         lastName,
         email,
         phone,
-        tier,
+        tier: selectedTier.name,
         company,
         linkedin,
-        message,
+        paymentAmount,
       }),
     });
 
-    if (error) {
-      console.error('Resend error:', error);
-      return NextResponse.json({ success: false, message: 'Error sending email.' }, { status: 500 });
+    const applicantEmailPromise = resend.emails.send({
+        from: 'Herscape <contact@herscape.org>',
+        to: email,
+        subject: 'Your Herscape Founding Circle Application',
+        react: ApplicantJoinEmail({
+            firstName,
+            tier: selectedTier.name,
+            paymentAmount,
+        })
+    })
+
+    const [adminResult, applicantResult] = await Promise.all([adminEmailPromise, applicantEmailPromise]);
+
+    if (adminResult.error || applicantResult.error) {
+      console.error('Resend error:', { adminError: adminResult.error, applicantError: applicantResult.error });
+      // Decide on a more specific error message if needed
+      return NextResponse.json({ success: false, message: 'Error sending confirmation emails.' }, { status: 500 });
     }
 
-    let paymentAmountMessage = 'Your application has been received!';
-    switch (tier) {
-        case 'supporter':
-            paymentAmountMessage = 'Your application has been received! The required contribution is $50.';
-            break;
-        case 'pioneer':
-            paymentAmountMessage = 'Your application has been received! The required contribution is $250.';
-            break;
-        case 'angel':
-            paymentAmountMessage = 'Your application has been received! The required contribution is $500.';
-            break;
-    }
-
-    return NextResponse.json({ success: true, message: paymentAmountMessage, data }, { status: 200 });
+    return NextResponse.json({ success: true, message: paymentAmountMessage, data: { adminResult, applicantResult } }, { status: 200 });
   } catch (error) {
     console.error('API error:', error);
     return NextResponse.json({ success: false, message: 'An unexpected error occurred.' }, { status: 500 });
