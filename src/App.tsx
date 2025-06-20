@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion, useAnimation, AnimatePresence } from 'framer-motion';
-import { Link, Routes, Route } from 'react-router-dom';
+import { Link, Routes, Route, useLocation } from 'react-router-dom';
 import About from './pages/About';
 import Community from './pages/Community';
 import Events from './pages/Events';
@@ -80,6 +80,7 @@ export default function App() {
   const [altColor, setAltColor] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const interval = setInterval(() => setAltColor(c => !c), 3000);
@@ -87,20 +88,25 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    // Preload videos and show loading screen
-    preloadVideos().then(() => {
-      // Add a small delay for smooth transition
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 500);
-    });
-  }, []);
+    // Only preload videos and show loading screen on the home route
+    if (location.pathname === '/') {
+      preloadVideos().then(() => {
+        // Add a small delay for smooth transition
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 500);
+      });
+    } else {
+      // For other routes, skip loading screen
+      setIsLoading(false);
+    }
+  }, [location.pathname]);
 
   const handleLoadingComplete = () => {
     setIsLoading(false);
   };
 
-  if (isLoading) {
+  if (isLoading && location.pathname === '/') {
     return <LoadingScreen onLoadingComplete={handleLoadingComplete} />;
   }
 
