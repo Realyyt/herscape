@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 
 export default function Events() {
@@ -93,9 +94,9 @@ export default function Events() {
               <div className="font-bold text-base sm:text-lg mb-1">Founding Circle Members</div>
               <div className="text-sm sm:text-base">Get Priority Access & Special Perks</div>
             </div>
-            <button className="w-full bg-black text-white rounded-full py-3 sm:py-4 font-bold mt-3 sm:mt-4 text-base sm:text-lg">
+            <Link href="/join" className="w-full bg-black text-white rounded-full py-3 sm:py-4 font-bold mt-3 sm:mt-4 text-base sm:text-lg">
               Register Interest
-            </button>
+            </Link>
           </div>
         </div>
       </div>
