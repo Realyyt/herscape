@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { motion, useAnimation } from 'framer-motion';
+import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import { Link, Routes, Route } from 'react-router-dom';
 import About from './pages/About';
 import Community from './pages/Community';
@@ -79,6 +79,7 @@ export default function App() {
   // Color toggle for Chat/Events card
   const [altColor, setAltColor] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => setAltColor(c => !c), 3000);
@@ -250,14 +251,64 @@ export default function App() {
         <Route path="/success" element={<Success />} />
       </Routes>
       {/* Bottom Navigation */}
-      <div className="fixed bottom-4 inset-x-4 z-50 sm:left-1/2 sm:-translate-x-1/2 sm:w-auto sm:inset-x-auto">
-        <div className="flex items-center gap-1 bg-white border border-black rounded-full px-2 sm:px-4 py-2 shadow-lg overflow-x-auto">
-          <Link to="/" className="font-black text-sm sm:text-lg mr-2 whitespace-nowrap">HERSCAPE</Link>
-          <Link to="/about" className={navItem + ' whitespace-nowrap'}>ABOUT</Link>
-          <Link to="/community" className={navItem + ' whitespace-nowrap'}>COMMUNITY</Link>
-          <Link to="/events" className={navItem + ' whitespace-nowrap'}>EVENTS</Link>
-          <Link to="/join" className={navItem + ' whitespace-nowrap'}>JOIN</Link>
-          <Link to="/join" className="ml-2 border border-black rounded-full px-2 sm:px-3 py-1 text-xs font-bold whitespace-nowrap">GET IN TOUCH</Link>
+
+      {/* Mobile Nav Bar */}
+      <div className="sm:hidden fixed bottom-0 left-0 right-0 h-20 bg-white border-t border-black z-50">
+        <div className="flex justify-between items-center h-full px-4">
+            <Link to="/" className="font-black text-lg">HERSCAPE</Link>
+            <Link to="/join" className="border border-black rounded-full px-4 py-2 text-sm font-bold">GET IN TOUCH</Link>
+            <button onClick={() => setIsMenuOpen(true)} aria-label="Open menu">
+                 <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+      </div>
+      
+      {/* Mobile Menu (Overlay) */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="sm:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            <motion.div
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+              className="fixed bottom-0 left-0 right-0 bg-white p-6 rounded-t-3xl shadow-lg"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="font-bold text-xl"></h2>
+                <button onClick={() => setIsMenuOpen(false)} aria-label="Close menu">
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+              </div>
+              <div className="flex flex-col items-center gap-4">
+                <Link to="/about" className="text-2xl font-bold py-2" onClick={() => setIsMenuOpen(false)}>ABOUT</Link>
+                <Link to="/community" className="text-2xl font-bold py-2" onClick={() => setIsMenuOpen(false)}>COMMUNITY</Link>
+                <Link to="/events" className="text-2xl font-bold py-2" onClick={() => setIsMenuOpen(false)}>EVENTS</Link>
+                <Link to="/join" className="text-2xl font-bold py-2" onClick={() => setIsMenuOpen(false)}>JOIN</Link>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Desktop Nav */}
+      <div className="hidden sm:block">
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50">
+          <div className="flex items-center gap-1 bg-white border border-black rounded-full px-2 sm:px-4 py-2 shadow-lg">
+            <Link to="/" className="font-black text-sm sm:text-lg mr-2 whitespace-nowrap">HERSCAPE</Link>
+            <Link to="/about" className={navItem + ' whitespace-nowrap'}>ABOUT</Link>
+            <Link to="/community" className={navItem + ' whitespace-nowrap'}>COMMUNITY</Link>
+            <Link to="/events" className={navItem + ' whitespace-nowrap'}>EVENTS</Link>
+            <Link to="/join" className={navItem + ' whitespace-nowrap'}>JOIN</Link>
+            <Link to="/join" className="ml-2 border border-black rounded-full px-2 sm:px-3 py-1 text-xs font-bold whitespace-nowrap">GET IN TOUCH</Link>
+          </div>
         </div>
       </div>
     </motion.div>
