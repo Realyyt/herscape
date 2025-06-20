@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 export default function Events() {
   const box = 'rounded-3xl border border-black bg-white p-3 sm:p-4 md:p-6';
@@ -90,9 +89,9 @@ export default function Events() {
               <div className="font-bold text-base sm:text-lg mb-1">Founding Circle Members</div>
               <div className="text-sm sm:text-base">Get Priority Access & Special Perks</div>
             </div>
-            <Link to="/join" className="w-full bg-black text-white rounded-full py-3 sm:py-4 font-bold mt-3 sm:mt-4 text-base sm:text-lg text-center block">
+            <button className="w-full bg-black text-white rounded-full py-3 sm:py-4 font-bold mt-3 sm:mt-4 text-base sm:text-lg">
               Register Interest
-            </Link>
+            </button>
           </div>
         </div>
       </div>
