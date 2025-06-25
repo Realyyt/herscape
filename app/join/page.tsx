@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { tiers } from '@/lib/tiers';
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+import { CreditCard, CheckCircle } from 'lucide-react';
 
 interface FormData {
   firstName: string;
@@ -12,13 +14,14 @@ interface FormData {
   company: string;
   linkedin: string;
   message: string;
+  country: string;
 }
 
 interface FormErrors {
   [key: string]: string;
 }
 
-export default function Join() {
+function JoinForm() {
   const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
     firstName: '',
@@ -28,13 +31,16 @@ export default function Join() {
     tier: 'supporter',
     company: '',
     linkedin: '',
-    message: ''
+    message: '',
+    country: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitStatus, setSubmitStatus] = useState<{ success?: boolean; message?: string }>({});
+  const [paymentStatus, setPaymentStatus] = useState<'pending' | 'completed' | 'failed'>('pending');
+  const [paymentDetails, setPaymentDetails] = useState<any>(null);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -58,27 +64,73 @@ export default function Join() {
       newErrors.email = 'Please enter a valid email';
     }
     if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
+    if (!formData.country.trim()) newErrors.country = 'Country is required';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
+  };
+
+  const handlePaymentSuccess = async (details: any) => {
+    try {
+      // Verify payment with our backend
+      const response = await fetch('/api/paypal', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          orderID: details.id,
+          action: 'verify'
+        })
+      });
+
+      const result = await response.json();
+      
+      if (result.success) {
+        setPaymentStatus('completed');
+        setPaymentDetails(details);
+        console.log('Payment verified:', result.data);
+      } else {
+        setPaymentStatus('failed');
+        console.error('Payment verification failed:', result.message);
+      }
+    } catch (error) {
+      setPaymentStatus('failed');
+      console.error('Payment verification error:', error);
+    }
+  };
+
+  const handlePaymentError = (err: any) => {
+    setPaymentStatus('failed');
+    console.error('Payment error:', err);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!validateForm()) return;
+    
+    if (paymentStatus !== 'completed') {
+      setSubmitStatus({ success: false, message: 'Please complete your payment before submitting the application.' });
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitStatus({});
+    
     try {
       const response = await fetch('/api/join', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          ...formData,
+          paymentDetails: paymentDetails
+        })
       });
       const result = await response.json();
       if (result.success) {
-        const paymentMatch = result.message.match(/\$(\d+)/);
-        const paymentAmount = paymentMatch ? `$${paymentMatch[1]}` : '$50';
+        const selectedTier = tiers.find(t => t.id === formData.tier);
+        const paymentAmount = selectedTier?.price || '$50';
         setSubmitStatus({ success: true, message: 'Application submitted successfully! Redirecting...' });
         setTimeout(() => {
           router.push(`/success?firstName=${encodeURIComponent(formData.firstName)}&lastName=${encodeURIComponent(formData.lastName)}&email=${encodeURIComponent(formData.email)}&tier=${encodeURIComponent(formData.tier)}&paymentAmount=${encodeURIComponent(paymentAmount)}&message=${encodeURIComponent(result.message)}`);
@@ -96,6 +148,9 @@ export default function Join() {
       setIsSubmitting(false);
     }
   };
+
+  // Get selected tier details
+  const selectedTier = tiers.find(t => t.id === formData.tier);
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-[#f7ffe5] via-[#f0f9e8] to-[#e8f5e0] flex flex-col items-center py-8 sm:py-12 md:py-16 px-3 sm:px-4">
@@ -123,6 +178,25 @@ export default function Join() {
               <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-gray-900">Application Form</h2>
               <p className="text-sm sm:text-base text-gray-600">Complete your exclusive membership application</p>
             </div>
+            
+            {/* Payment Status Display */}
+            {paymentStatus === 'completed' && (
+              <div className="mb-6 p-4 bg-green-50 border-2 border-green-200 rounded-xl">
+                <div className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
+                  <span className="text-green-800 font-semibold">Payment Completed Successfully!</span>
+                </div>
+                <p className="text-green-700 text-sm mt-1">You can now submit your application.</p>
+              </div>
+            )}
+            
+            {paymentStatus === 'failed' && (
+              <div className="mb-6 p-4 bg-red-50 border-2 border-red-200 rounded-xl">
+                <span className="text-red-800 font-semibold">Payment Failed</span>
+                <p className="text-red-700 text-sm mt-1">Please try the payment again.</p>
+              </div>
+            )}
+            
             {/* Success/Error Message Display */}
             {submitStatus.message && (
               <div className={`mb-4 sm:mb-6 p-3 sm:p-4 rounded-xl ${
@@ -147,6 +221,7 @@ export default function Join() {
                 </div>
               </div>
             )}
+            
             <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 <div>
@@ -210,6 +285,178 @@ export default function Join() {
                 </div>
               </div>
 
+              <div>
+                <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">Country *</label>
+                <select
+                  name="country"
+                  value={formData.country}
+                  onChange={handleInputChange}
+                  className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#bdda57]/20 text-sm sm:text-base ${
+                    errors.country ? 'border-red-300' : 'border-gray-200 focus:border-[#bdda57]'
+                  }`}
+                >
+                  <option value="">Select your country</option>
+                  <option value="United States">United States</option>
+                  <option value="Canada">Canada</option>
+                  <option value="United Kingdom">United Kingdom</option>
+                  <option value="Australia">Australia</option>
+                  <option value="Germany">Germany</option>
+                  <option value="France">France</option>
+                  <option value="Netherlands">Netherlands</option>
+                  <option value="Sweden">Sweden</option>
+                  <option value="Norway">Norway</option>
+                  <option value="Denmark">Denmark</option>
+                  <option value="Finland">Finland</option>
+                  <option value="Switzerland">Switzerland</option>
+                  <option value="Austria">Austria</option>
+                  <option value="Belgium">Belgium</option>
+                  <option value="Ireland">Ireland</option>
+                  <option value="New Zealand">New Zealand</option>
+                  <option value="Singapore">Singapore</option>
+                  <option value="Japan">Japan</option>
+                  <option value="South Korea">South Korea</option>
+                  <option value="India">India</option>
+                  <option value="Brazil">Brazil</option>
+                  <option value="Mexico">Mexico</option>
+                  <option value="Argentina">Argentina</option>
+                  <option value="Chile">Chile</option>
+                  <option value="Colombia">Colombia</option>
+                  <option value="Peru">Peru</option>
+                  <option value="Venezuela">Venezuela</option>
+                  <option value="Uruguay">Uruguay</option>
+                  <option value="Paraguay">Paraguay</option>
+                  <option value="Bolivia">Bolivia</option>
+                  <option value="Ecuador">Ecuador</option>
+                  <option value="Guyana">Guyana</option>
+                  <option value="Suriname">Suriname</option>
+                  <option value="French Guiana">French Guiana</option>
+                  <option value="South Africa">South Africa</option>
+                  <option value="Nigeria">Nigeria</option>
+                  <option value="Kenya">Kenya</option>
+                  <option value="Ghana">Ghana</option>
+                  <option value="Ethiopia">Ethiopia</option>
+                  <option value="Uganda">Uganda</option>
+                  <option value="Tanzania">Tanzania</option>
+                  <option value="Morocco">Morocco</option>
+                  <option value="Egypt">Egypt</option>
+                  <option value="Algeria">Algeria</option>
+                  <option value="Tunisia">Tunisia</option>
+                  <option value="Libya">Libya</option>
+                  <option value="Sudan">Sudan</option>
+                  <option value="Chad">Chad</option>
+                  <option value="Niger">Niger</option>
+                  <option value="Mali">Mali</option>
+                  <option value="Burkina Faso">Burkina Faso</option>
+                  <option value="Senegal">Senegal</option>
+                  <option value="Guinea">Guinea</option>
+                  <option value="Sierra Leone">Sierra Leone</option>
+                  <option value="Liberia">Liberia</option>
+                  <option value="Ivory Coast">Ivory Coast</option>
+                  <option value="Togo">Togo</option>
+                  <option value="Benin">Benin</option>
+                  <option value="Cameroon">Cameroon</option>
+                  <option value="Central African Republic">Central African Republic</option>
+                  <option value="Gabon">Gabon</option>
+                  <option value="Congo">Congo</option>
+                  <option value="Democratic Republic of the Congo">Democratic Republic of the Congo</option>
+                  <option value="Angola">Angola</option>
+                  <option value="Zambia">Zambia</option>
+                  <option value="Zimbabwe">Zimbabwe</option>
+                  <option value="Botswana">Botswana</option>
+                  <option value="Namibia">Namibia</option>
+                  <option value="Lesotho">Lesotho</option>
+                  <option value="Eswatini">Eswatini</option>
+                  <option value="Madagascar">Madagascar</option>
+                  <option value="Mauritius">Mauritius</option>
+                  <option value="Seychelles">Seychelles</option>
+                  <option value="Comoros">Comoros</option>
+                  <option value="Mayotte">Mayotte</option>
+                  <option value="Reunion">Reunion</option>
+                  <option value="China">China</option>
+                  <option value="Hong Kong">Hong Kong</option>
+                  <option value="Taiwan">Taiwan</option>
+                  <option value="Thailand">Thailand</option>
+                  <option value="Vietnam">Vietnam</option>
+                  <option value="Malaysia">Malaysia</option>
+                  <option value="Indonesia">Indonesia</option>
+                  <option value="Philippines">Philippines</option>
+                  <option value="Myanmar">Myanmar</option>
+                  <option value="Cambodia">Cambodia</option>
+                  <option value="Laos">Laos</option>
+                  <option value="Brunei">Brunei</option>
+                  <option value="East Timor">East Timor</option>
+                  <option value="Papua New Guinea">Papua New Guinea</option>
+                  <option value="Fiji">Fiji</option>
+                  <option value="Vanuatu">Vanuatu</option>
+                  <option value="New Caledonia">New Caledonia</option>
+                  <option value="Solomon Islands">Solomon Islands</option>
+                  <option value="Samoa">Samoa</option>
+                  <option value="Tonga">Tonga</option>
+                  <option value="Palau">Palau</option>
+                  <option value="Micronesia">Micronesia</option>
+                  <option value="Marshall Islands">Marshall Islands</option>
+                  <option value="Kiribati">Kiribati</option>
+                  <option value="Tuvalu">Tuvalu</option>
+                  <option value="Nauru">Nauru</option>
+                  <option value="Israel">Israel</option>
+                  <option value="Lebanon">Lebanon</option>
+                  <option value="Jordan">Jordan</option>
+                  <option value="Syria">Syria</option>
+                  <option value="Iraq">Iraq</option>
+                  <option value="Iran">Iran</option>
+                  <option value="Kuwait">Kuwait</option>
+                  <option value="Saudi Arabia">Saudi Arabia</option>
+                  <option value="Yemen">Yemen</option>
+                  <option value="Oman">Oman</option>
+                  <option value="United Arab Emirates">United Arab Emirates</option>
+                  <option value="Qatar">Qatar</option>
+                  <option value="Bahrain">Bahrain</option>
+                  <option value="Turkey">Turkey</option>
+                  <option value="Cyprus">Cyprus</option>
+                  <option value="Greece">Greece</option>
+                  <option value="Italy">Italy</option>
+                  <option value="Spain">Spain</option>
+                  <option value="Portugal">Portugal</option>
+                  <option value="Poland">Poland</option>
+                  <option value="Czech Republic">Czech Republic</option>
+                  <option value="Slovakia">Slovakia</option>
+                  <option value="Hungary">Hungary</option>
+                  <option value="Romania">Romania</option>
+                  <option value="Bulgaria">Bulgaria</option>
+                  <option value="Croatia">Croatia</option>
+                  <option value="Slovenia">Slovenia</option>
+                  <option value="Serbia">Serbia</option>
+                  <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+                  <option value="Montenegro">Montenegro</option>
+                  <option value="North Macedonia">North Macedonia</option>
+                  <option value="Albania">Albania</option>
+                  <option value="Kosovo">Kosovo</option>
+                  <option value="Moldova">Moldova</option>
+                  <option value="Ukraine">Ukraine</option>
+                  <option value="Belarus">Belarus</option>
+                  <option value="Lithuania">Lithuania</option>
+                  <option value="Latvia">Latvia</option>
+                  <option value="Estonia">Estonia</option>
+                  <option value="Russia">Russia</option>
+                  <option value="Kazakhstan">Kazakhstan</option>
+                  <option value="Uzbekistan">Uzbekistan</option>
+                  <option value="Kyrgyzstan">Kyrgyzstan</option>
+                  <option value="Tajikistan">Tajikistan</option>
+                  <option value="Turkmenistan">Turkmenistan</option>
+                  <option value="Afghanistan">Afghanistan</option>
+                  <option value="Pakistan">Pakistan</option>
+                  <option value="Bangladesh">Bangladesh</option>
+                  <option value="Sri Lanka">Sri Lanka</option>
+                  <option value="Nepal">Nepal</option>
+                  <option value="Bhutan">Bhutan</option>
+                  <option value="Maldives">Maldives</option>
+                  <option value="Mongolia">Mongolia</option>
+                  <option value="North Korea">North Korea</option>
+                  <option value="Other">Other</option>
+                </select>
+                {errors.country && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.country}</p>}
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 <div>
                   <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">Company/Organization</label>
@@ -266,82 +513,151 @@ export default function Join() {
               </div>
 
               <div>
-                <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">Why do you want to join Herscape? (Optional)</label>
+                <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">Message (Optional)</label>
                 <textarea
                   name="message"
                   value={formData.message}
                   onChange={handleInputChange}
                   rows={4}
-                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border-2 border-gray-200 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#bdda57]/20 focus:border-[#bdda57] resize-none text-sm sm:text-base"
-                  placeholder="Tell us about your vision for women's entrepreneurship..."
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border-2 border-gray-200 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#bdda57]/20 focus:border-[#bdda57] text-sm sm:text-base resize-none"
+                  placeholder="Tell us why you want to join the Founding Circle..."
                 />
               </div>
 
+              {/* Payment Section */}
+              <div className="border-t pt-6">
+                <div className="mb-4">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2 flex items-center">
+                    <CreditCard className="w-5 h-5 text-blue-500 mr-2" />
+                    Complete Payment
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-4">
+                    Payment Amount: <span className="font-bold text-[#bdda57]">{selectedTier?.price}</span>
+                  </p>
+                </div>
+                
+                {paymentStatus === 'pending' && (
+                  <div className="flex justify-center">
+                    <PayPalButtons
+                      createOrder={(data, actions) => {
+                        return actions.order.create({
+                          intent: "CAPTURE",
+                          purchase_units: [
+                            {
+                              amount: {
+                                value: (selectedTier?.price || 50).toString(),
+                                currency_code: "USD"
+                              },
+                              description: `Herscape Founding Circle - ${selectedTier?.name} Membership`,
+                              custom_id: `${formData.email}_${formData.tier}`
+                            }
+                          ]
+                        });
+                      }}
+                      onApprove={(data, actions) => {
+                        if (actions.order) {
+                          return actions.order.capture().then((details) => {
+                            handlePaymentSuccess(details);
+                          });
+                        }
+                        return Promise.resolve();
+                      }}
+                      onError={(err) => {
+                        handlePaymentError(err);
+                      }}
+                      style={{
+                        layout: "vertical",
+                        color: "blue",
+                        shape: "rect",
+                        label: "pay"
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* Submit Button */}
               <button
                 type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-[#bdda57] to-[#a8c94a] text-gray-900 px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-base sm:text-lg font-bold hover:from-[#a8c94a] hover:to-[#bdda57] transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={isSubmitting || paymentStatus !== 'completed'}
+                className={`w-full py-3 sm:py-4 px-6 sm:px-8 rounded-xl font-semibold text-white transition-all duration-200 ${
+                  isSubmitting || paymentStatus !== 'completed'
+                    ? 'bg-gray-400 cursor-not-allowed'
+                    : 'bg-[#bdda57] hover:bg-[#a3c563] shadow-lg hover:shadow-xl transform hover:-translate-y-0.5'
+                }`}
               >
                 {isSubmitting ? (
                   <div className="flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-gray-900 mr-2"></div>
-                    <span className="text-sm sm:text-base">Processing Application...</span>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                    Submitting Application...
                   </div>
+                ) : paymentStatus !== 'completed' ? (
+                  'Complete Payment First'
                 ) : (
-                  'Submit Exclusive Application'
+                  'Submit Application'
                 )}
               </button>
             </form>
           </div>
 
           {/* Benefits Section */}
-          <div className="space-y-6 sm:space-y-8">
-            <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 border border-white/20">
-              <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-gray-900">Founding Member Perks</h2>
-              <ul className="space-y-3 sm:space-y-4">
-                {[
-                  'Lifetime perks & discounts for all future Herscape programs',
-                  'Your name etched in history as one of our founding women',
-                  'Exclusive merch (custom journal, identity package & Herscape token)',
-                  'Priority access to investor/pitch circles before others',
-                  'Board or Gold Club eligibility (for high-tier supporters)',
-                  'The pride of being one of 20 women who helped birth Herscape'
-                ].map((perk, index) => (
-                  <li key={index} className="flex items-start">
-                    <div className="w-5 h-5 sm:w-6 sm:h-6 bg-[#bdda57] rounded-full flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
-                      <svg className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                    </div>
-                    <span className="text-sm sm:text-base text-gray-700">{perk}</span>
-                  </li>
-                ))}
-              </ul>
+          <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 border border-white/20">
+            <div className="mb-6 sm:mb-8">
+              <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-gray-900">Founding Circle Benefits</h2>
+              <p className="text-sm sm:text-base text-gray-600">Exclusive perks for our founding members</p>
             </div>
-
-            <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 border border-white/20">
-              <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-gray-900">Why Join?</h2>
-              <p className="text-base sm:text-lg text-gray-700 mb-3 sm:mb-4">
-                10% of Herscape&apos;s profits will fund women-led businesses in underserved regions around the world. Your contribution isn&apos;t just for you — it&apos;s for women you may never meet, but whose lives you&apos;ll change.
-              </p>
-              <div className="bg-[#eaffd0] rounded-xl p-3 sm:p-4">
-                <p className="text-sm sm:text-base text-gray-800 font-medium">
-                  We are only selecting 20 women to begin this movement with. No forms. No hurdles. Just heart.
-                </p>
+            <div className="space-y-4 sm:space-y-6">
+              <div className="flex items-start">
+                <div className="w-8 h-8 bg-[#bdda57] rounded-full flex items-center justify-center mr-3 mt-0.5">
+                  <span className="text-white font-bold text-sm">1</span>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-1">Lifetime Access</h3>
+                  <p className="text-sm text-gray-600">Never pay for membership again</p>
+                </div>
               </div>
-            </div>
-
-            <div className="bg-gradient-to-r from-[#bdda57] to-[#a8c94a] rounded-3xl p-4 sm:p-6 md:p-8 text-center">
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">Limited Time Opportunity</h3>
-              <p className="text-sm sm:text-base text-gray-800 mb-4 sm:mb-6">
-                Only 20 spots available. Once filled, this exclusive founding circle will be closed forever.
-              </p>
-              <div className="text-3xl sm:text-4xl font-bold text-gray-900">20</div>
-              <div className="text-sm sm:text-base text-gray-800">Exclusive Spots Remaining</div>
+              <div className="flex items-start">
+                <div className="w-8 h-8 bg-[#bdda57] rounded-full flex items-center justify-center mr-3 mt-0.5">
+                  <span className="text-white font-bold text-sm">2</span>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-1">Exclusive Events</h3>
+                  <p className="text-sm text-gray-600">Priority access to all Herscape events</p>
+                </div>
+              </div>
+              <div className="flex items-start">
+                <div className="w-8 h-8 bg-[#bdda57] rounded-full flex items-center justify-center mr-3 mt-0.5">
+                  <span className="text-white font-bold text-sm">3</span>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-1">Network Access</h3>
+                  <p className="text-sm text-gray-600">Direct access to our exclusive network</p>
+                </div>
+              </div>
+              <div className="flex items-start">
+                <div className="w-8 h-8 bg-[#bdda57] rounded-full flex items-center justify-center mr-3 mt-0.5">
+                  <span className="text-white font-bold text-sm">4</span>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-1">Founding Status</h3>
+                  <p className="text-sm text-gray-600">Be recognized as a founding member</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  );
+}
+
+export default function Join() {
+  return (
+    <PayPalScriptProvider options={{ 
+      clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "test",
+      currency: "USD"
+    }}>
+      <JoinForm />
+    </PayPalScriptProvider>
   );
 }

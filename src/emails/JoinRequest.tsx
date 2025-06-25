@@ -24,6 +24,7 @@ interface JoinRequestEmailProps {
   company?: string;
   linkedin?: string;
   paymentAmount: string;
+  country: string;
 }
 
 const baseUrl = process.env.VERCEL_URL
@@ -39,6 +40,7 @@ export const JoinRequestEmail = ({
   company,
   linkedin,
   paymentAmount,
+  country,
 }: JoinRequestEmailProps) => (
   <Html>
     <Head>
@@ -87,46 +89,38 @@ export const JoinRequestEmail = ({
               <Column style={value}><Link href={linkedin} style={link}>{linkedin}</Link></Column>
             </Row>
           )}
+          <Row style={row}>
+            <Column style={label}>Country</Column>
+            <Column style={value}>{country}</Column>
+          </Row>
         </Section>
         
         <Hr style={hr} />
 
         <Section style={section}>
-          <Heading style={h2}>Payment Instructions for Applicant</Heading>
-          <Text style={text}>The following payment instructions are included in the confirmation email sent to the applicant.</Text>
+          <Heading style={h2}>Payment Information</Heading>
+          <Text style={text}>Payment has been completed successfully through PayPal.</Text>
           <Row style={row}>
-            <Column style={label}>Amount</Column>
+            <Column style={label}>Amount Paid</Column>
             <Column style={paymentValue}>{paymentAmount}</Column>
           </Row>
           <Row style={row}>
-            <Column style={label}>Account Holder</Column>
-            <Column style={value}>Salem Andero</Column>
+            <Column style={label}>Payment Method</Column>
+            <Column style={value}>PayPal</Column>
           </Row>
           <Row style={row}>
-            <Column style={label}>Bank</Column>
-            <Column style={value}>Wells Fargo Bank, N.A.</Column>
+            <Column style={label}>Payment Status</Column>
+            <Column style={value}>Completed</Column>
           </Row>
           <Row style={row}>
-            <Column style={label}>Account Number</Column>
-            <Column style={value}>40630159095097994</Column>
-          </Row>
-          <Row style={row}>
-            <Column style={label}>Routing Number</Column>
-            <Column style={value}>121000248</Column>
-          </Row>
-          <Row style={row}>
-            <Column style={label}>Account Type</Column>
-            <Column style={value}>Checking</Column>
-          </Row>
-          <Row style={row}>
-            <Column style={label}>Address</Column>
-            <Column style={value}>580 California Street, San Francisco, CA 94104, US</Column>
+            <Column style={label}>Transaction Date</Column>
+            <Column style={value}>{new Date().toLocaleDateString()}</Column>
           </Row>
         </Section>
 
         <Section style={warningSection}>
-            <Heading style={h3}>Important Note</Heading>
-            <Text style={warningText}>This is a temporary payment method while we await company account approval.</Text>
+            <Heading style={h3}>New Member Activated</Heading>
+            <Text style={warningText}>This member has completed payment and their membership is now active.</Text>
         </Section>
 
         <Hr style={hr} />

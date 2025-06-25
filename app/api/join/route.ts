@@ -16,6 +16,8 @@ const joinFormSchema = z.object({
   company: z.string().optional(),
   linkedin: z.string().optional(),
   message: z.string().optional(),
+  paymentDetails: z.any().optional(),
+  country: z.string().min(1, 'Country is required'),
 });
 
 export async function POST(req: NextRequest) {
@@ -28,7 +30,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, message: 'Invalid form data.', fieldErrors }, { status: 400 });
     }
 
-    const { firstName, lastName, email, phone, tier, company, linkedin } = parsed.data;
+    const { firstName, lastName, email, phone, tier, company, linkedin, paymentDetails, country } = parsed.data;
 
     const selectedTier = tierMap.get(tier);
 
@@ -37,7 +39,7 @@ export async function POST(req: NextRequest) {
     }
 
     const paymentAmount = selectedTier.priceString;
-    const paymentAmountMessage = `Your application has been received! The required contribution is ${paymentAmount}.`;
+    const paymentAmountMessage = `Welcome to the Herscape Founding Circle! Your membership has been activated successfully.`;
 
     const adminEmailPromise = resend.emails.send({
       from: 'Herscape <contact@herscape.org>',
@@ -52,6 +54,7 @@ export async function POST(req: NextRequest) {
         company,
         linkedin,
         paymentAmount,
+        country,
       }),
     });
 

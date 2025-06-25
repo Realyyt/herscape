@@ -43,56 +43,38 @@ export const ApplicantJoinEmail = ({
           Hi {firstName},
         </Text>
         <Text style={text}>
-          Welcome to the Herscape Founding Circle! We&apos;re thrilled to have you as a new <span style={tierHighlight}>{tier}</span>. You are one step away from finalizing your membership. To complete your registration, please follow the payment instructions below.
+          Welcome to the Herscape Founding Circle! We&apos;re thrilled to have you as a new <span style={tierHighlight}>{tier}</span> member. Your membership has been activated successfully.
         </Text>
 
         <Hr style={hr} />
 
         <Section style={section}>
-          <Heading style={h2}>Payment Instructions</Heading>
+          <Heading style={h2}>Welcome to the Family!</Heading>
           
           <div style={paymentBox}>
             <Row style={row}>
-                <Column style={label}>Total Amount</Column>
-                <Column style={paymentValue}>{paymentAmount}</Column>
+                <Column style={label}>Membership Tier</Column>
+                <Column style={paymentValue}>{tier}</Column>
             </Row>
           </div>
 
           <Text style={{...text, textAlign: 'center', margin: '20px 0'}}>
-            Please make a bank transfer using the details below:
+            Thank you for joining the Herscape Founding Circle! You are now part of an exclusive community of women entrepreneurs.
           </Text>
 
           <div style={detailsBox}>
-            <Row style={row}>
-                <Column style={label}>Account Holder</Column>
-                <Column style={value}>Salem Andero</Column>
-            </Row>
-            <Row style={row}>
-                <Column style={label}>Bank</Column>
-                <Column style={value}>Wells Fargo Bank, N.A.</Column>
-            </Row>
-            <Row style={row}>
-                <Column style={label}>Account Number</Column>
-                <Column style={value}>40630159095097994</Column>
-            </Row>
-            <Row style={row}>
-                <Column style={label}>Routing Number</Column>
-                <Column style={value}>121000248</Column>
-            </Row>
-            <Row style={row}>
-                <Column style={label}>Account Type</Column>
-                <Column style={value}>Checking</Column>
-            </Row>
-            <Row style={row}>
-                <Column style={label}>Address</Column>
-                <Column style={value}>580 California Street, San Francisco, CA 94104, US</Column>
-            </Row>
+            <Text style={{...text, textAlign: 'center', margin: '20px 0'}}>
+              We&apos;ll be in touch soon with your exclusive member benefits and upcoming events.
+            </Text>
+            <Text style={{...text, textAlign: 'center', margin: '20px 0'}}>
+              Welcome to the most influential women in women&apos;s entrepreneurship!
+            </Text>
           </div>
         </Section>
 
         <Section style={warningSection}>
-            <Heading style={h3}>Important Note</Heading>
-            <Text style={warningText}>This is a temporary payment method while we await company account approval. Your prompt payment will secure your spot in the Founding Circle.</Text>
+            <Heading style={h3}>What&apos;s Next?</Heading>
+            <Text style={warningText}>Keep an eye on your inbox for exclusive member communications and upcoming events.</Text>
         </Section>
 
         <Hr style={hr} />
