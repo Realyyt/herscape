@@ -28,7 +28,7 @@ function JoinForm() {
     lastName: '',
     email: '',
     phone: '',
-    tier: 'supporter',
+    tier: 'pioneer',
     company: '',
     linkedin: '',
     message: '',
@@ -130,7 +130,7 @@ function JoinForm() {
       const result = await response.json();
       if (result.success) {
         const selectedTier = tiers.find(t => t.id === formData.tier);
-        const paymentAmount = selectedTier?.price || '$50';
+        const paymentAmount = selectedTier?.price || '$250';
         setSubmitStatus({ success: true, message: 'Application submitted successfully! Redirecting...' });
         setTimeout(() => {
           router.push(`/success?firstName=${encodeURIComponent(formData.firstName)}&lastName=${encodeURIComponent(formData.lastName)}&email=${encodeURIComponent(formData.email)}&tier=${encodeURIComponent(formData.tier)}&paymentAmount=${encodeURIComponent(paymentAmount)}&message=${encodeURIComponent(result.message)}`);
@@ -545,7 +545,7 @@ function JoinForm() {
                           purchase_units: [
                             {
                               amount: {
-                                value: (selectedTier?.price || 50).toString(),
+                                value: (selectedTier?.price || 250).toString(),
                                 currency_code: "USD"
                               },
                               description: `Herscape Founding Circle - ${selectedTier?.name} Membership`,

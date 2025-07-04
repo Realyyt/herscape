@@ -5,20 +5,13 @@ import Link from 'next/link';
 
 const membershipTiers = [
   {
-    name: "Supporter",
-    price: 50,
+    name: "Pioneer",
+    price: 250,
     perks: [
       "Lifetime access to Herscape community",
       "Exclusive founding member badge",
       "Early access to all programs",
-      "Monthly virtual meetups"
-    ]
-  },
-  {
-    name: "Pioneer",
-    price: 250,
-    perks: [
-      "All Supporter benefits",
+      "Monthly virtual meetups",
       "Custom Herscape journal",
       "Priority access to events",
       "Quarterly mastermind sessions",

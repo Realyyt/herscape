@@ -1,7 +1,7 @@
 {
   "/_not-found/page": "/_not-found",
-  "/api/paypal/route": "/api/paypal",
   "/api/join/route": "/api/join",
+  "/api/paypal/route": "/api/paypal",
   "/about/page": "/about",
   "/community/page": "/community",
   "/events/page": "/events",

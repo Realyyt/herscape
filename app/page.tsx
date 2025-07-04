@@ -129,10 +129,10 @@ export default function Home() {
         <div className={`${boxPastel} col-span-1 sm:col-span-2 row-span-1 flex flex-col`}>
           <div className="text-xs mb-1 tracking-widest uppercase">Membership Tiers</div>
           <div className="flex flex-col gap-2">
-            {['Supporter', 'Pioneer', 'Angel'].map((tier, i) => (
+            {['Pioneer', 'Angel'].map((tier, i) => (
               <div key={tier} className="flex items-center justify-between bg-white rounded-xl border border-black px-3 sm:px-4 py-2">
                 <span className="font-black text-sm sm:text-base">{tier}</span>
-                <span className="font-bold text-xs sm:text-sm">${[50, 250, 500][i]}</span>
+                <span className="font-bold text-xs sm:text-sm">${[250, 500][i]}</span>
                 <Link href="/join" className="border border-black rounded-full px-2 sm:px-3 py-1 text-xs font-bold">Join</Link>
               </div>
             ))}

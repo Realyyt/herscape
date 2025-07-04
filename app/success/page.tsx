@@ -23,8 +23,8 @@ function SuccessContent() {
     const data: SuccessData = {
       firstName: searchParams.get('firstName') || '',
       lastName: searchParams.get('lastName') || '',
-      tier: searchParams.get('tier') || 'supporter',
-      paymentAmount: searchParams.get('paymentAmount') || '$50',
+      tier: searchParams.get('tier') || 'pioneer',
+      paymentAmount: searchParams.get('paymentAmount') || '$250',
       message: searchParams.get('message') || '',
       email: searchParams.get('email') || '',
     };

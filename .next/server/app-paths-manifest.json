@@ -1,7 +1,7 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
-  "/api/paypal/route": "app/api/paypal/route.js",
   "/api/join/route": "app/api/join/route.js",
+  "/api/paypal/route": "app/api/paypal/route.js",
   "/about/page": "app/about/page.js",
   "/community/page": "app/community/page.js",
   "/events/page": "app/events/page.js",

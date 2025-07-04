@@ -1,5 +1,5 @@
 export interface Tier {
-  id: 'supporter' | 'pioneer' | 'angel';
+  id: 'pioneer' | 'angel';
   name: string;
   price: number;
   priceString: string;
@@ -9,20 +9,12 @@ export interface Tier {
 
 export const tiers: Tier[] = [
   {
-    id: 'supporter',
-    name: 'Supporter',
-    price: 50,
-    priceString: '$50',
-    description: 'All core perks, your name in history, and exclusive merch.',
-    features: ['Lifetime perks & discounts', 'Name etched in history', 'Exclusive merch package']
-  },
-  {
     id: 'pioneer',
     name: 'Pioneer',
     price: 250,
     priceString: '$250',
-    description: 'All Supporter perks, plus priority access to pitch circles and events.',
-    features: ['All Supporter perks', 'Priority access to pitch circles', 'Exclusive events access']
+    description: 'All core perks, priority access to pitch circles and events.',
+    features: ['Lifetime perks & discounts', 'Priority access to pitch circles', 'Exclusive events access']
   },
   {
     id: 'angel',

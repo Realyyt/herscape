@@ -1,30 +1,6 @@
 {
   "version": 4,
   "routes": {
-    "/founding-circle": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "Next-Action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/founding-circle",
-      "dataRoute": "/founding-circle.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/success": {
       "experimentalBypassFor": [
         {
@@ -49,7 +25,7 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/community": {
+    "/join": {
       "experimentalBypassFor": [
         {
           "type": "header",
@@ -62,56 +38,8 @@
         }
       ],
       "initialRevalidateSeconds": false,
-      "srcRoute": "/community",
-      "dataRoute": "/community.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/events": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "Next-Action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/events",
-      "dataRoute": "/events.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "Next-Action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/",
-      "dataRoute": "/index.rsc",
+      "srcRoute": "/join",
+      "dataRoute": "/join.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -145,7 +73,7 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/join": {
+    "/events": {
       "experimentalBypassFor": [
         {
           "type": "header",
@@ -158,8 +86,80 @@
         }
       ],
       "initialRevalidateSeconds": false,
-      "srcRoute": "/join",
-      "dataRoute": "/join.rsc",
+      "srcRoute": "/events",
+      "dataRoute": "/events.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/founding-circle": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "Next-Action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/founding-circle",
+      "dataRoute": "/founding-circle.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/community": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "Next-Action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/community",
+      "dataRoute": "/community.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "Next-Action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/",
+      "dataRoute": "/index.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -173,8 +173,8 @@
   "dynamicRoutes": {},
   "notFoundRoutes": [],
   "preview": {
-    "previewModeId": "3e65e4859bb8cf0ca33668711a883738",
-    "previewModeSigningKey": "ee8e7c2f8724542a7f4f56a432a0de25f1abb6500af00fdd1d8fa879e25e019a",
-    "previewModeEncryptionKey": "27f3771df1bdca730dceeb75698bdd696537a529f0f9f634fba25287d426281f"
+    "previewModeId": "24320133da57c9ece3d0834499ab53ff",
+    "previewModeSigningKey": "878b0598fc12ce88aacda16b28ee5124e05b41e23918ff96ba373161d6fc96fb",
+    "previewModeEncryptionKey": "da18d2c9b1f8f06268b03c8509c2e11e3d65163069ee4c8d4bef6faea67b9d4b"
   }
 }
