@@ -1,9 +1,9 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
-import { JoinRequestEmail } from '@/emails/JoinRequest';
-import { ApplicantJoinEmail } from '@/emails/ApplicantJoinEmail';
+import { JoinRequestEmail } from '../../../src/emails/JoinRequest';
+import { ApplicantJoinEmail } from '../../../src/emails/ApplicantJoinEmail';
 import { z } from 'zod';
-import { tierMap } from '@/lib/tiers';
+import { tierMap } from '../../../src/lib/tiers';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 

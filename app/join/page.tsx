@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { tiers } from '@/lib/tiers';
+import { tiers } from '../../src/lib/tiers';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import { CreditCard, CheckCircle } from 'lucide-react';
 
