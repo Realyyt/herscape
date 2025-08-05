@@ -3,10 +3,10 @@
   "/api/join/route": "/api/join",
   "/api/paypal/route": "/api/paypal",
   "/about/page": "/about",
-  "/founding-circle/page": "/founding-circle",
+  "/community/page": "/community",
   "/events/page": "/events",
-  "/join/page": "/join",
+  "/founding-circle/page": "/founding-circle",
   "/page": "/",
-  "/success/page": "/success",
-  "/community/page": "/community"
+  "/join/page": "/join",
+  "/success/page": "/success"
 }
