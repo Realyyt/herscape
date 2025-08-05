@@ -1,12 +1,12 @@
 {
-  "/_not-found/page": "/_not-found",
   "/api/join/route": "/api/join",
   "/api/paypal/route": "/api/paypal",
+  "/_not-found/page": "/_not-found",
   "/about/page": "/about",
-  "/community/page": "/community",
-  "/events/page": "/events",
-  "/founding-circle/page": "/founding-circle",
   "/join/page": "/join",
   "/page": "/",
-  "/success/page": "/success"
+  "/success/page": "/success",
+  "/founding-circle/page": "/founding-circle",
+  "/events/page": "/events",
+  "/community/page": "/community"
 }
