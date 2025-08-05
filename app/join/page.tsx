@@ -537,7 +537,10 @@ function JoinForm() {
                 </div>
                 
                 {paymentStatus === 'pending' && (
-                  <div className="flex justify-center">
+                  <div className="flex flex-col items-center space-y-4">
+                    <div className="text-sm text-gray-600 mb-2">
+                      PayPal payment button should appear below. If it doesn't load, please refresh the page.
+                    </div>
                     <PayPalButtons
                       createOrder={(data, actions) => {
                         const amount = (selectedTier?.price || 1).toString();
@@ -583,6 +586,9 @@ function JoinForm() {
                         label: "pay"
                       }}
                     />
+                    <div className="text-xs text-gray-500">
+                      If the PayPal button doesn't appear, check the browser console for errors.
+                    </div>
                   </div>
                 )}
               </div>
@@ -664,6 +670,12 @@ function JoinForm() {
 
 export default function Join() {
   const clientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
+  
+  console.log('PayPal Configuration Debug:', {
+    clientId: clientId ? 'SET' : 'NOT SET',
+    nodeEnv: process.env.NODE_ENV,
+    hasClientId: !!clientId
+  });
   
   if (!clientId) {
     console.error('PayPal Client ID not configured. Please add NEXT_PUBLIC_PAYPAL_CLIENT_ID to your .env.local file');
