@@ -65,6 +65,14 @@
       "static/chunks/874-91cb42999561f326.js",
       "static/chunks/app/founding-circle/page-724eb5a190a8254e.js"
     ],
+    "/join/page": [
+      "static/chunks/webpack-68f22649503f8e75.js",
+      "static/chunks/4bd1b696-9a99fb4dbb7f9f2a.js",
+      "static/chunks/684-1bca15097cfa8f11.js",
+      "static/chunks/main-app-84b95ed1d40669c8.js",
+      "static/chunks/483-a9f3b7d495a2f33c.js",
+      "static/chunks/app/join/page-7be85fbc11c253a9.js"
+    ],
     "/page": [
       "static/chunks/webpack-68f22649503f8e75.js",
       "static/chunks/4bd1b696-9a99fb4dbb7f9f2a.js",
@@ -73,14 +81,6 @@
       "static/chunks/575-50d1800654bf9719.js",
       "static/chunks/874-91cb42999561f326.js",
       "static/chunks/app/page-2e5b28542dd5ab15.js"
-    ],
-    "/join/page": [
-      "static/chunks/webpack-68f22649503f8e75.js",
-      "static/chunks/4bd1b696-9a99fb4dbb7f9f2a.js",
-      "static/chunks/684-1bca15097cfa8f11.js",
-      "static/chunks/main-app-84b95ed1d40669c8.js",
-      "static/chunks/483-a9f3b7d495a2f33c.js",
-      "static/chunks/app/join/page-7be85fbc11c253a9.js"
     ],
     "/success/page": [
       "static/chunks/webpack-68f22649503f8e75.js",

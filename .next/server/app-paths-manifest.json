@@ -6,7 +6,7 @@
   "/community/page": "app/community/page.js",
   "/events/page": "app/events/page.js",
   "/founding-circle/page": "app/founding-circle/page.js",
-  "/page": "app/page.js",
   "/join/page": "app/join/page.js",
+  "/page": "app/page.js",
   "/success/page": "app/success/page.js"
 }
