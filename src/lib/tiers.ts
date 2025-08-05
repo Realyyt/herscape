@@ -1,5 +1,5 @@
 export interface Tier {
-  id: 'pioneer' | 'angel';
+  id: 'test' | 'pioneer' | 'angel';
   name: string;
   price: number;
   priceString: string;
@@ -8,6 +8,14 @@ export interface Tier {
 }
 
 export const tiers: Tier[] = [
+  {
+    id: 'test',
+    name: 'Test Tier',
+    price: 1,
+    priceString: '$1',
+    description: 'Test payment option for development and testing.',
+    features: ['Test payment only', 'Development use', 'No real benefits']
+  },
   {
     id: 'pioneer',
     name: 'Pioneer',

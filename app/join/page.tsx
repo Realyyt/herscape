@@ -28,7 +28,7 @@ function JoinForm() {
     lastName: '',
     email: '',
     phone: '',
-    tier: 'pioneer',
+    tier: 'test',
     company: '',
     linkedin: '',
     message: '',
@@ -540,12 +540,20 @@ function JoinForm() {
                   <div className="flex justify-center">
                     <PayPalButtons
                       createOrder={(data, actions) => {
+                        const amount = (selectedTier?.price || 1).toString();
+                        console.log('Creating PayPal order:', {
+                          amount,
+                          tier: selectedTier?.name,
+                          clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,
+                          nodeEnv: process.env.NODE_ENV
+                        });
+                        
                         return actions.order.create({
                           intent: "CAPTURE",
                           purchase_units: [
                             {
                               amount: {
-                                value: (selectedTier?.price || 250).toString(),
+                                value: amount,
                                 currency_code: "USD"
                               },
                               description: `Herscape Founding Circle - ${selectedTier?.name} Membership`,
@@ -555,14 +563,17 @@ function JoinForm() {
                         });
                       }}
                       onApprove={(data, actions) => {
+                        console.log('PayPal order approved:', data);
                         if (actions.order) {
                           return actions.order.capture().then((details) => {
+                            console.log('PayPal payment captured:', details);
                             handlePaymentSuccess(details);
                           });
                         }
                         return Promise.resolve();
                       }}
                       onError={(err) => {
+                        console.error('PayPal error:', err);
                         handlePaymentError(err);
                       }}
                       style={{
@@ -652,10 +663,22 @@ function JoinForm() {
 }
 
 export default function Join() {
+  const clientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
+  
+  if (!clientId) {
+    console.error('PayPal Client ID not configured. Please add NEXT_PUBLIC_PAYPAL_CLIENT_ID to your .env.local file');
+  }
+
   return (
     <PayPalScriptProvider options={{ 
-      clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "test",
-      currency: "USD"
+      clientId: clientId || "test",
+      currency: "USD",
+      intent: "CAPTURE",
+      // Force live mode if NODE_ENV is production
+      ...(process.env.NODE_ENV === 'production' && {
+        'data-client-id': clientId,
+        'data-sdk-integration-source': 'button-factory'
+      })
     }}>
       <JoinForm />
     </PayPalScriptProvider>
